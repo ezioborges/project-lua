@@ -4,19 +4,13 @@ import { User } from '../entities/users.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class GetUserByIdProvider {
+export class DeleteUserProvider {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepositpry: Repository<User>,
   ) {}
 
   public async execute(userId: string) {
-    const user = this.userRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new Error(`Nenhum usuário encontrado com o ID: ${userId}`);
-    }
-
-    return user;
+    return await this.userRepositpry.softDelete(userId);
   }
 }
