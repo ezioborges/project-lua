@@ -46,7 +46,6 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
     Crie um arquivo `.env` na raiz do projeto seguindo o modelo abaixo:
 
     ```env
-    # Exemplo de configuração
     DB_HOST=localhost
     DB_PORT=3306
     DB_USERNAME=root
