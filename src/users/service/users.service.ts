@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { CreateUserProvider } from './create-users.provider';
-import { FindAllUsersProvider } from './find-all-users.provider';
-import { GetUserById } from './get-user-by-id.provider';
+import { CreateUserProvider } from './providers/create-users.provider';
+import { FindAllUsersProvider } from './providers/find-all-users.provider';
+import { GetUserById } from './providers/get-user-by-id.provider';
 
 @Injectable()
 export class UsersService {
