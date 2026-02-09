@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { CreateUserProvider } from './create-users.provider';
 import { FindAllUsersProvider } from './find-all-users.provider';
+import { GetUserById } from './get-user-by-id.provider';
 
 @Injectable()
 export class UsersService {
@@ -10,6 +11,7 @@ export class UsersService {
     // O @InjectRepository cria a conexão e te entrega o repositório pronto
     private readonly createUserProvider: CreateUserProvider,
     private readonly findAllUsersProvider: FindAllUsersProvider,
+    private readonly getUserById: GetUserById,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -18,5 +20,9 @@ export class UsersService {
 
   findAll() {
     return this.findAllUsersProvider.execute();
+  }
+
+  findById(id: string) {
+    return this.getUserById.execute(id);
   }
 }

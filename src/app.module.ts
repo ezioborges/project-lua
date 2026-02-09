@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module'; // aqui imprta o módulo e não o controller
-import { User } from './users/entitites/users.entity'; // Corrigi o caminho (typo: entitites -> entities)
+import { User } from './users/entities/users.entity'; // Corrigi o caminho (typo: entitites -> entities)
 
 @Module({
   imports: [
