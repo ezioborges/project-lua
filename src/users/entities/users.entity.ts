@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -30,6 +31,7 @@ export class User {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @Column({ default: true })
-  isActive: boolean;
+  // o typeOrm gerencia essa coluna por baixo dos panos
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

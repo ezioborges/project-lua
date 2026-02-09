@@ -3,9 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersController } from './controllers/users.controller';
 import { UsersService } from './service/users.service';
 import { User } from './entities/users.entity';
-import { CreateUserProvider } from './service/create-users.provider';
-import { FindAllUsersProvider } from './service/find-all-users.provider';
-import { GetUserById } from './service/get-user-by-id.provider';
+import { CreateUserProvider } from './providers/create-users.provider';
+import { FindAllUsersProvider } from './providers/find-all-users.provider';
+import { GetUserByIdProvider } from './providers/get-user-by-id.provider';
+import { UpdateUserProvider } from './providers/update-user.provider';
+import { DeleteUserProvider } from './providers/delete-user.provider';
+import { RestoreUserProvider } from './providers/restore-user.provider';
 
 @Module({
   // O forFeature cria o "UserRepository" internamente
@@ -15,8 +18,19 @@ import { GetUserById } from './service/get-user-by-id.provider';
     UsersService,
     CreateUserProvider,
     FindAllUsersProvider,
-    GetUserById,
+    GetUserByIdProvider,
+    UpdateUserProvider,
+    DeleteUserProvider,
+    RestoreUserProvider,
   ],
-  exports: [UsersService, CreateUserProvider, FindAllUsersProvider],
+  exports: [
+    UsersService,
+    CreateUserProvider,
+    FindAllUsersProvider,
+    GetUserByIdProvider,
+    UpdateUserProvider,
+    DeleteUserProvider,
+    RestoreUserProvider,
+  ],
 })
 export class UsersModule {}

@@ -1,7 +1,17 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UsersService } from '../service/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { FindRelationsNotFoundError } from 'typeorm';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -28,14 +38,51 @@ export class UsersController {
     };
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(':userId')
+  async findOne(@Param('userId') id: string) {
     const user = await this.usersServive.findById(id);
 
     return {
       status: 'success',
       message: 'Usuário Encontrado',
       data: user,
+    };
+  }
+
+  @Put(':userId')
+  async updateUser(
+    @Param('userId') userId: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    const update = await this.usersServive.userUpdate(userId, updateUserDto);
+
+    return {
+      status: 'success',
+      message: 'Usuário atualizado com sucesso',
+      data: update,
+    };
+  }
+
+  @Delete(':userId')
+  async deleteUser(@Param('userId') userId: string) {
+    await this.usersServive.deleteUser(userId);
+
+    return {
+      status: 'success',
+      message: 'Usuário excluido com sucesso!',
+    };
+  }
+
+  @Patch(':userId/restore')
+  async restoreUser(@Param('userId') userId: string) {
+    await this.usersServive.restoreUser(userId);
+
+    const userRestored = await this.usersServive.findById(userId);
+
+    return {
+      status: 'success',
+      message: 'Usuário restaurado com sucesso!',
+      data: userRestored,
     };
   }
 }
