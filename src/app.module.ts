@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module'; // aqui imprta o módulo e não o controller
-import { User } from './users/entitites/users.entity'; // Corrigi o caminho (typo: entitites -> entities)
+import { User } from './users/entities/users.entity'; // Corrigi o caminho (typo: entitites -> entities)
 
 @Module({
   imports: [
@@ -26,7 +26,5 @@ import { User } from './users/entitites/users.entity'; // Corrigi o caminho (typ
     // 3. Importa o módulo de usuários (que já tem o controller e o service dentro dele)
     UsersModule,
   ],
-  controllers: [AppController], // Note: O UsersController NÃO está aqui
-  providers: [AppService],
 })
 export class AppModule {}

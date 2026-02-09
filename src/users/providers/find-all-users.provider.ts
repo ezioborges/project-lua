@@ -1,0 +1,16 @@
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { User } from '../entities/users.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+
+@Injectable()
+export class FindAllUsersProvider {
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
+
+  public async execute() {
+    return this.usersRepository.find();
+  }
+}
