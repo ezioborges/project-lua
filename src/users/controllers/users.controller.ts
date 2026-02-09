@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { UsersService } from '../service/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { FindRelationsNotFoundError } from 'typeorm';
 
 @Controller('users')
 export class UsersController {
@@ -24,6 +25,17 @@ export class UsersController {
       status: 'success',
       message: 'Lista de usuários cadastrados!',
       data: allUsers,
+    };
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const user = await this.usersServive.findById(id);
+
+    return {
+      status: 'success',
+      message: 'Usuário Encontrado',
+      data: user,
     };
   }
 }
