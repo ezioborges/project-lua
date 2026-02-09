@@ -32,7 +32,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 1.  **Clone o repositório:**
 
     ```bash
-    git clone [https://github.com/seu-usuario/lua-project.git](https://github.com/seu-usuario/lua-project.git)
+    git clone https://github.com/seu-usuario/lua-project.git
     cd lua-project
     ```
 
