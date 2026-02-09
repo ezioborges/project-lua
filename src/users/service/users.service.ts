@@ -1,24 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../entitites/users.entity'; // Verifique o caminho
 import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserProvider } from './create-users.provider';
+import { FindAllUsersProvider } from './find-all-users.provider';
 
 @Injectable()
 export class UsersService {
   constructor(
     // AQUI ESTÁ A MÁGICA:
     // O @InjectRepository cria a conexão e te entrega o repositório pronto
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly createUserProvider: CreateUserProvider,
+    private readonly findAllUsersProvider: FindAllUsersProvider,
   ) {}
 
   create(createUserDto: CreateUserDto) {
-    const user = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+    return this.createUserProvider.execute(createUserDto);
   }
 
   findAll() {
-    return this.usersRepository.find();
+    return this.findAllUsersProvider.execute();
   }
 }

@@ -26,7 +26,5 @@ import { User } from './users/entitites/users.entity'; // Corrigi o caminho (typ
     // 3. Importa o módulo de usuários (que já tem o controller e o service dentro dele)
     UsersModule,
   ],
-  controllers: [AppController], // Note: O UsersController NÃO está aqui
-  providers: [AppService],
 })
 export class AppModule {}
