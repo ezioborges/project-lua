@@ -8,17 +8,41 @@
 
 O **Lua Project** é uma API RESTful desenvolvida para sustentar a plataforma de e-commerce da **Lua Cosméticos**.
 
-A **Lua Cosméticos** é uma marca que tem como propósito democratizar o autocuidado, oferecendo **cosméticos naturais de forma acessível**. Esta API gerencia o catálogo de produtos, usuários e o fluxo de pedidos, garantindo uma experiência de compra eficiente e escalável.
+A **Lua Cosméticos** é uma marca que tem como propósito democratizar o autocuidado, oferecendo **cosméticos naturais de forma acessível**. Esta API gerencia o catálogo de produtos, usuários e o fluxo de pedidos, garantindo uma experiência de compra eficiente, segura e escalável.
+
+---
+
+## ✨ Funcionalidades e Regras de Negócio
+
+O projeto conta com regras de negócio refinadas para garantir a integridade e segurança dos dados:
+
+- **Gestão de Usuários (CRUD):**
+  - **Validação de Unicidade:** Verificação automática se **Email** e **CPF** já estão cadastrados no sistema.
+  - **Sanitização de Dados:** Formatação automática de dados (ex: CPF armazena apenas números).
+  - **Segurança:** As senhas dos usuários são transformadas em **hash** utilizando `bcrypt` antes da persistência no banco.
+- **Validação de Dados (DTOs):**
+  - Utilização de **Class Validator** e **Class Transformer** para garantir que os dados de entrada (payload) estejam no formato correto (tamanho do CPF, formato de email, campos obrigatórios, etc).
+  - Tratamento global de erros para campos inválidos.
+
+- **Arquitetura e Escalabilidade:**
+  - **Paginação:** Implementada nativamente nas listagens para suportar o crescimento da base de dados.
+  - **Tratamento de Erros:** Uso de `NotFoundException` e `ConflictException` e filtros de exceção do NestJS para respostas HTTP semânticas e claras.
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
-Este projeto foi construído com as seguintes tecnologias:
+Este projeto foi construído com as seguintes tecnologias e bibliotecas:
 
-- [NestJS](https://nestjs.com/) - Framework Node.js para aplicações escaláveis
-- [TypeScript](https://www.typescriptlang.org/) - Superset do JavaScript com tipagem estática
-- [TypeORM](https://typeorm.io/) - ORM para interação com o banco de dados
-- [MySQL](https://www.mysql.com/) - Banco de Dados Relacional
-- [Jest](https://jestjs.io/) - Framework de Testes
+- **Core:** [NestJS](https://nestjs.com/) (Framework Node.js)
+- **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
+- **ORM:** [TypeORM](https://typeorm.io/)
+- **Banco de Dados:** [MySQL](https://www.mysql.com/)
+- **Testes:** [Jest](https://jestjs.io/)
+- **Segurança:** [Bcrypt](https://www.npmjs.com/package/bcrypt) (Hash de senhas)
+- **Validação:** [Class Validator](https://github.com/typestack/class-validator) & [Class Transformer](https://github.com/typestack/class-transformer)
+
+---
 
 ## ⚙️ Pré-requisitos
 
@@ -26,6 +50,8 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 
 - [Node.js](https://nodejs.org/en/) (Versão LTS recomendada)
 - [MySQL](https://www.mysql.com/) (Instância local ou remota)
+
+---
 
 ## 🚀 Instalação e Configuração
 
@@ -53,8 +79,14 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
     DB_DATABASE=lua_cosmeticos_db
     ```
 
+---
+
 ## ▶️ Executando a Aplicação
 
 ```bash
+# Desenvolvimento
 npm run start:dev
+
+# Produção
+npm run start:prod
 ```
