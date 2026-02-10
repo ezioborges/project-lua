@@ -9,6 +9,7 @@ import { GetUserByIdProvider } from './providers/get-user-by-id.provider';
 import { UpdateUserProvider } from './providers/update-user.provider';
 import { DeleteUserProvider } from './providers/delete-user.provider';
 import { RestoreUserProvider } from './providers/restore-user.provider';
+import { UserValidator } from './service/user-validator.service';
 
 @Module({
   // O forFeature cria o "UserRepository" internamente
@@ -16,6 +17,7 @@ import { RestoreUserProvider } from './providers/restore-user.provider';
   controllers: [UsersController],
   providers: [
     UsersService,
+    UserValidator,
     CreateUserProvider,
     FindAllUsersProvider,
     GetUserByIdProvider,
@@ -25,6 +27,7 @@ import { RestoreUserProvider } from './providers/restore-user.provider';
   ],
   exports: [
     UsersService,
+    UserValidator,
     CreateUserProvider,
     FindAllUsersProvider,
     GetUserByIdProvider,

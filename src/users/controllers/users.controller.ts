@@ -5,9 +5,11 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from '../service/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -29,17 +31,22 @@ export class UsersController {
   }
 
   @Get()
-  async findAll() {
-    const allUsers = await this.usersServive.findAll();
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    const result = await this.usersServive.findAll(Number(page), Number(limit));
+
     return {
       status: 'success',
-      message: 'Lista de usuários cadastrados!',
-      data: allUsers,
+      message: 'Lista de usuários ativos.',
+      meta: result.meta,
+      data: result.data,
     };
   }
 
   @Get(':userId')
-  async findOne(@Param('userId') id: string) {
+  async findOne(@Param('userId', new ParseUUIDPipe()) id: string) {
     const user = await this.usersServive.findById(id);
 
     return {
@@ -64,7 +71,7 @@ export class UsersController {
   }
 
   @Delete(':userId')
-  async deleteUser(@Param('userId') userId: string) {
+  async deleteUser(@Param('userId', new ParseUUIDPipe()) userId: string) {
     await this.usersServive.deleteUser(userId);
 
     return {
