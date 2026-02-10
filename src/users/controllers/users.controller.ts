@@ -4,7 +4,9 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -12,6 +14,7 @@ import {
 import { UsersService } from '../service/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { STATUS_CODES } from 'http';
 
 @Controller('users')
 export class UsersController {
@@ -64,7 +67,7 @@ export class UsersController {
   }
 
   @Delete(':userId')
-  async deleteUser(@Param('userId') userId: string) {
+  async deleteUser(@Param('userId', new ParseUUIDPipe()) userId: string) {
     await this.usersServive.deleteUser(userId);
 
     return {
