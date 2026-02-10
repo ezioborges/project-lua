@@ -4,17 +4,16 @@ import {
   Delete,
   Get,
   HttpCode,
-  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from '../service/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { STATUS_CODES } from 'http';
 
 @Controller('users')
 export class UsersController {
@@ -32,12 +31,17 @@ export class UsersController {
   }
 
   @Get()
-  async findAll() {
-    const allUsers = await this.usersServive.findAll();
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    const result = await this.usersServive.findAll(Number(page), Number(limit));
+
     return {
       status: 'success',
-      message: 'Lista de usuários cadastrados!',
-      data: allUsers,
+      message: 'Lista de usuários ativos.',
+      meta: result.meta,
+      data: result.data,
     };
   }
 

@@ -25,8 +25,8 @@ export class UsersService {
     return this.createUserProvider.execute(createUserDto);
   }
 
-  findAll() {
-    return this.findAllUsersProvider.execute();
+  findAll(page: number, limit: number) {
+    return this.findAllUsersProvider.execute(page, limit);
   }
 
   findById(id: string) {

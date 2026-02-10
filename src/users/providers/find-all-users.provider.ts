@@ -10,7 +10,24 @@ export class FindAllUsersProvider {
     private usersRepository: Repository<User>,
   ) {}
 
-  public async execute() {
-    return this.usersRepository.find();
+  public async execute(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [users, total] = await this.usersRepository.findAndCount({
+      take: limit,
+      skip: skip,
+      order: {
+        createdAt: 'DESC', // os mais novos vão aparecer primeiro
+      },
+    });
+
+    return {
+      data: users,
+      meta: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+      },
+    };
   }
 }
