@@ -4,41 +4,27 @@ import { User } from '../entities/users.entity';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
+import { UserValidator } from '../service/user-validator.service';
 
 @Injectable()
 export class CreateUserProvider {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly userValidator: UserValidator,
   ) {}
 
   public async execute(createUserDto: CreateUserDto) {
     const { email, cpf, password } = createUserDto;
 
-    // caso tenha '-' ou '.' é apagado para deixar apenas os números
-    const cleanCpf = cpf.replace(/\D/g, '');
-
-    // verifica se o email já existe
-    const emailExists = await this.userRepository.findOne({ where: { email } });
-
-    // lança erro caso o email já exista
-    if (emailExists)
-      throw new ConflictException('Email já foi está cadastrado!');
-
-    // verifica se o email já existe; ATENÇÃO: no cpf eu passei o cleanCpf como valor de comparação.
-    const cpfExists = await this.userRepository.findOne({
-      where: { cpf: cleanCpf },
-    });
-
-    // lança erro se o CPF já existe
-    if (cpfExists) throw new ConflictException('O CPF já está cadastrado.');
+    const cleanCpf = await this.userValidator.checkEmailAndCpf(email, cpf);
 
     // tranforma a senha em hash o 10 representa o salt (padrão mais seguro)
     const hashedPassword = await hash(password, 10);
 
     const newUser = this.userRepository.create({
       ...createUserDto,
-      cpf: cleanCpf,
+      cpf: cleanCpf || createUserDto.cpf, // a exclamação faz com que eu saiba que tem uma verificação acontecenedo
       password: hashedPassword,
     });
     return this.userRepository.save(newUser);

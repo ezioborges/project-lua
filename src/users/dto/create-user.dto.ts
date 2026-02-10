@@ -1,4 +1,13 @@
-import { IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+  MinLength,
+} from 'class-validator';
+import { UserRole } from '../entities/users.entity';
 
 // Primeiro criar o DTOque define o formato JSON que a API vai aceitar
 // DTO é uma ckasse simples, sem lógica, só dados
@@ -8,8 +17,8 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'O nome é obrigatório' })
   name: string;
 
-  @IsString()
-  @IsNotEmpty({ message: 'O email é obrigatório' })
+  @IsEmail({}, { message: 'Email inválido' })
+  @IsNotEmpty({ message: 'O campo de email é obrigatório.' })
   email: string;
 
   @IsString()
@@ -19,4 +28,10 @@ export class CreateUserDto {
   @IsString()
   @MinLength(6, { message: 'A senha deve possuir no mínimo 6 caracteres.' })
   password: string;
+
+  @IsOptional()
+  @IsEnum(UserRole, {
+    message: 'Os valores de role aceitos são: admin, client ou guest',
+  })
+  role: UserRole;
 }

@@ -46,7 +46,7 @@ export class UsersController {
   }
 
   @Get(':userId')
-  async findOne(@Param('userId') id: string) {
+  async findOne(@Param('userId', new ParseUUIDPipe()) id: string) {
     const user = await this.usersServive.findById(id);
 
     return {

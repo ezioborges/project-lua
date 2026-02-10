@@ -3,29 +3,38 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/users.entity';
 import { Repository } from 'typeorm';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserValidator } from '../service/user-validator.service';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UpdateUserProvider {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly userValidator: UserValidator,
   ) {}
 
-  public async execute(userId: string, UpdateUserDto: UpdateUserDto) {
-    // pega pelo id e a entidade que quero atualizar
-    const updatingUser = await this.userRepository.update(
+  public async execute(userId: string, updateUserDto: UpdateUserDto) {
+    let { email, cpf, password } = updateUserDto;
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) throw new NotFoundException(`Usuário não encontrado com o ID: `);
+
+    const cleanCpf = await this.userValidator.checkEmailAndCpf(
+      email,
+      cpf,
       userId,
-      UpdateUserDto,
     );
 
-    // caso nenhuma linha da tabela seja afetada. É mais rápido
-    if (updatingUser.affected === 0) {
-      throw new NotFoundException(`Usuário não encontrado com o ID: ${userId}`);
+    if (password) {
+      password = await hash(password, 10);
     }
 
-    // chamo de novo pelo id pra que mostra atualizado no resultado.
-    const updatedUser = await this.userRepository.findOneBy({ id: userId });
+    const userToUpdate = this.userRepository.merge(user, {
+      ...updateUserDto,
+      cpf: cleanCpf || updateUserDto.cpf,
+    });
 
-    return updatedUser;
+    return await this.userRepository.save(userToUpdate);
   }
 }
