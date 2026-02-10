@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'; // Necessário para ler o .env
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module'; // aqui imprta o módulo e não o controller
 import { User } from './users/entities/users.entity'; // Corrigi o caminho (typo: entitites -> entities)
 
@@ -21,6 +19,7 @@ import { User } from './users/entities/users.entity'; // Corrigi o caminho (typo
       database: process.env.DB_DATABASE,
       entities: [User], // Lista as tabelas do banco
       synchronize: true, // Cria as tabelas automaticamente
+      logging: true,
     }),
 
     // 3. Importa o módulo de usuários (que já tem o controller e o service dentro dele)
