@@ -15,6 +15,12 @@ export class Supplier {
   @Column({ unique: true })
   name: string;
 
-  @OneToMany(() => Product, (product) => product.category)
+  @Column({ nullable: true })
+  contactEmail: string;
+
+  @Column({ nullable: true })
+  webSite: string;
+
+  @OneToMany(() => Product, (product) => product.supplier)
   product: Product[];
 }

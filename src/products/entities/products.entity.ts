@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Category } from './category.entity';
+import { Supplier } from './suppliers.entity';
 
 @Entity('products')
 export class Product {
@@ -45,4 +46,7 @@ export class Product {
     nullable: true,
   })
   category: Category;
+
+  @ManyToOne(() => Supplier, (supplier) => supplier.product)
+  supplier: Supplier;
 }

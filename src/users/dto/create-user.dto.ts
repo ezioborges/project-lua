@@ -9,8 +9,8 @@ import {
 } from 'class-validator';
 import { UserRole } from '../entities/users.entity';
 
-// Primeiro criar o DTOque define o formato JSON que a API vai aceitar
-// DTO é uma ckasse simples, sem lógica, só dados
+// Primeiro criar o DTO que define o formato JSON que a API vai aceitar
+// DTO é uma classe simples, sem lógica, só dados
 
 export class CreateUserDto {
   @IsString()
