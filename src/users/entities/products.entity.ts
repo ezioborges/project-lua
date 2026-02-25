@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Category } from './category.entity';
 
 @Entity('products')
 export class Product {
@@ -20,6 +22,7 @@ export class Product {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
+  // representa o código do produto
   @Column({ unique: true })
   sku: string;
 
@@ -37,4 +40,9 @@ export class Product {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => Category, (category) => category.products, {
+    nullable: true,
+  })
+  category: Category;
 }
