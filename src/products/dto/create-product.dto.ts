@@ -22,7 +22,6 @@ export class CreateProductDto {
     { maxDecimalPlaces: 2 },
     { message: 'O produto deve conter duas casas decimais' },
   )
-
   // se usar IsNotEmpty, pode ser que o preço aceite valores negativos.
   @IsPositive()
   price: number;

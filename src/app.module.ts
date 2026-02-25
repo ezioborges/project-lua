@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'; // Necessário para ler o .env
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module'; // aqui imprta o módulo e não o controller
-import { User } from './users/entities/users.entity'; // Corrigi o caminho (typo: entitites -> entities)
+import { ProductsModule } from './products/products.module';
+import { CategoryModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -17,13 +18,15 @@ import { User } from './users/entities/users.entity'; // Corrigi o caminho (typo
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User], // Lista as tabelas do banco
-      synchronize: true, // Cria as tabelas automaticamente
+      autoLoadEntities: true, // Faz com que todas as entidades sejam lidas sem precisar passar diretamente
+      synchronize: true, // Cria/Atualiza as tabelas automaticamente
       logging: true,
     }),
 
     // 3. Importa o módulo de usuários (que já tem o controller e o service dentro dele)
     UsersModule,
+    ProductsModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

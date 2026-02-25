@@ -10,13 +10,7 @@ export class UserValidator {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async checkEmailAndCpf(
-    email?: string,
-    cpf?: string,
-    role?: string,
-    userId?: string,
-  ) {
-    let cleanCpf: string | undefined;
+  async checkEmailAndCpf(email?: string, cpf?: string, userId?: string) {
     if (email) {
       const emailExists = await this.userRepository.findOne({
         where: { email },

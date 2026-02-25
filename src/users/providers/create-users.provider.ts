@@ -1,10 +1,10 @@
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/users.entity';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
-import { UserValidator } from '../service/user-validator.service';
+import { UserValidator } from '../services/user-validator.service';
 
 @Injectable()
 export class CreateUserProvider {

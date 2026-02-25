@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Category } from './category.entity';
 import { Supplier } from './suppliers.entity';
+import { Category } from 'src/categories/entities/category.entity';
 
 @Entity('products')
 export class Product {
@@ -36,10 +36,10 @@ export class Product {
   @Column({ default: true })
   isActive: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => Category, (category) => category.products, {
