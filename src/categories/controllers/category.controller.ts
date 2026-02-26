@@ -51,7 +51,7 @@ export class CategoriesController {
 
   @Get(':categoryId')
   @HttpCode(200)
-  async findById(@Param('categoryId') categoryId: string) {
+  async findById(@Param('categoryId', new ParseUUIDPipe()) categoryId: string) {
     const category = await this.categoryService.findById(categoryId);
 
     return {
@@ -64,7 +64,7 @@ export class CategoriesController {
   @Put(':categoryId')
   @HttpCode(200)
   async update(
-    @Param('categoryId') categoryId: string,
+    @Param('categoryId', new ParseUUIDPipe()) categoryId: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     const updatedCategory = await this.categoryService.update(

@@ -58,7 +58,7 @@ export class UsersController {
 
   @Put(':userId')
   async updateUser(
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe()) userId: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     const update = await this.usersServive.userUpdate(userId, updateUserDto);
@@ -81,7 +81,7 @@ export class UsersController {
   }
 
   @Patch(':userId/restore')
-  async restoreUser(@Param('userId') userId: string) {
+  async restoreUser(@Param('userId', new ParseUUIDPipe()) userId: string) {
     await this.usersServive.restoreUser(userId);
 
     const userRestored = await this.usersServive.findById(userId);
