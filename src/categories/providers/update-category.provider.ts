@@ -46,7 +46,7 @@ export class UpdateCategoryProvider {
       }
 
       throw new InternalServerErrorException(
-        'Erro ao salvar o produto no banco de dados.',
+        `Erro ao salvar a categoria no banco de dados: ${error.message}`,
       );
     }
   }

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/users.entity';
 import { Repository } from 'typeorm';
@@ -11,14 +15,20 @@ export class GetUserByIdProvider {
   ) {}
 
   public async execute(userId: string): Promise<User> {
-    const user = await this.userRepository.findOneBy({ id: userId });
+    try {
+      const user = await this.userRepository.findOneBy({ id: userId });
 
-    if (!user) {
-      throw new NotFoundException(
-        `Nenhum usuário encontrado com o ID: ${userId}`,
+      if (!user) {
+        throw new NotFoundException(
+          `Nenhum usuário encontrado com o ID: ${userId}`,
+        );
+      }
+
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao buscar usuário pelo ID: ${error.message}`,
       );
     }
-
-    return user;
   }
 }

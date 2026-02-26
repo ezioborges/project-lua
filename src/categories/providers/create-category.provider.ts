@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { Category } from '../entities/category.entity';
@@ -12,8 +12,14 @@ export class CreateCategoryProvider {
   ) {}
 
   public async execute(createCategoryDto: CreateCategoryDto) {
-    const newCategory = this.categoryRepository.create(createCategoryDto);
+    try {
+      const newCategory = this.categoryRepository.create(createCategoryDto);
 
-    return this.categoryRepository.save(newCategory);
+      return this.categoryRepository.save(newCategory);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao criar Categoria: ${error.message}`,
+      );
+    }
   }
 }

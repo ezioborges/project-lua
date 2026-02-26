@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from '../entities/category.entity';
 import { Repository } from 'typeorm';
@@ -11,24 +11,30 @@ export class FindAllCategoriesProvider {
   ) {}
 
   public async execute(page: number = 1, limit: number = 10) {
-    const skip = (page - 1) * limit;
+    try {
+      const skip = (page - 1) * limit;
 
-    const [categories, total] =
-      await this.findAllCategoriesRepository.findAndCount({
-        take: limit,
-        skip,
-        order: {
-          createdAt: 'DESC',
+      const [categories, total] =
+        await this.findAllCategoriesRepository.findAndCount({
+          take: limit,
+          skip,
+          order: {
+            createdAt: 'DESC',
+          },
+        });
+
+      return {
+        data: categories,
+        meta: {
+          total,
+          page,
+          lastPage: Math.ceil(total / limit),
         },
-      });
-
-    return {
-      data: categories,
-      meta: {
-        total,
-        page,
-        lastPage: Math.ceil(total / limit),
-      },
-    };
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao buscar todas as categorias: ${error.message}`,
+      );
+    }
   }
 }

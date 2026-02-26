@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/users.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
 import { UserValidator } from '../services/user-validator.service';
@@ -15,18 +15,24 @@ export class CreateUserProvider {
   ) {}
 
   public async execute(createUserDto: CreateUserDto) {
-    const { email, cpf, password } = createUserDto;
+    try {
+      const { email, cpf, password } = createUserDto;
 
-    const cleanCpf = await this.userValidator.checkEmailAndCpf(email, cpf);
+      const cleanCpf = await this.userValidator.checkEmailAndCpf(email, cpf);
 
-    // tranforma a senha em hash o 10 representa o salt (padrão mais seguro)
-    const hashedPassword = await hash(password, 10);
+      // tranforma a senha em hash o 10 representa o salt (padrão mais seguro)
+      const hashedPassword = await hash(password, 10);
 
-    const newUser = this.userRepository.create({
-      ...createUserDto,
-      cpf: cleanCpf || createUserDto.cpf, // a exclamação faz com que eu saiba que tem uma verificação acontecenedo
-      password: hashedPassword,
-    });
-    return this.userRepository.save(newUser);
+      const newUser = this.userRepository.create({
+        ...createUserDto,
+        cpf: cleanCpf || createUserDto.cpf, // a exclamação faz com que eu saiba que tem uma verificação acontecenedo
+        password: hashedPassword,
+      });
+      return this.userRepository.save(newUser);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao criar o usuário: ${error.message}`,
+      );
+    }
   }
 }

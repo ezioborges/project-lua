@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/users.entity';
@@ -11,6 +11,12 @@ export class RestoreUserProvider {
   ) {}
 
   public async execute(userId: string) {
-    return await this.userRepository.restore(userId);
+    try {
+      return await this.userRepository.restore(userId);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro em restaurar o usuário: ${error.message}`,
+      );
+    }
   }
 }

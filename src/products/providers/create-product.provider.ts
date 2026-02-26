@@ -37,7 +37,7 @@ export class CreateProductProvider {
       }
 
       throw new InternalServerErrorException(
-        'Erro ao salvar o produto no banco de dados.',
+        `Erro ao salvar o produto no banco de dados: ${error.message}`,
       );
     }
   }
