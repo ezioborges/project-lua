@@ -1,6 +1,16 @@
-import { Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
+import { UpdateCategoryDto } from '../dto/update-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -33,6 +43,36 @@ export class CategoriesController {
       status: 'success',
       message: 'Lista de categorias',
       data: allCategories,
+    };
+  }
+
+  @Get(':categoryId')
+  @HttpCode(200)
+  async findById(categoryId: string) {
+    const category = await this.categoryService.findById(categoryId);
+
+    return {
+      status: 'success',
+      message: 'Categoria encontrada com sucesso',
+      data: category,
+    };
+  }
+
+  @Put(':categoryId')
+  @HttpCode(200)
+  async update(
+    @Param('categoryId') categoryId: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    const updatedCategory = await this.categoryService.update(
+      categoryId,
+      updateCategoryDto,
+    );
+
+    return {
+      status: 'success',
+      message: 'Categoria atualizada com sucesso',
+      data: updatedCategory,
     };
   }
 }
