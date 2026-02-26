@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
+  ParseUUIDPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -48,7 +51,7 @@ export class CategoriesController {
 
   @Get(':categoryId')
   @HttpCode(200)
-  async findById(categoryId: string) {
+  async findById(@Param('categoryId') categoryId: string) {
     const category = await this.categoryService.findById(categoryId);
 
     return {
@@ -73,6 +76,28 @@ export class CategoriesController {
       status: 'success',
       message: 'Categoria atualizada com sucesso',
       data: updatedCategory,
+    };
+  }
+
+  @Delete(':categoryId')
+  @HttpCode(200)
+  async delete(@Param('categoryId', new ParseUUIDPipe()) categoryId: string) {
+    await this.categoryService.delete(categoryId);
+
+    return {
+      status: 'success',
+      message: 'Categoria deletada com sucesso',
+    };
+  }
+
+  @Patch(':categoryId/restore')
+  @HttpCode(200)
+  async restore(@Param('categoryId', new ParseUUIDPipe()) categoryId: string) {
+    await this.categoryService.restore(categoryId);
+
+    return {
+      status: 'success',
+      message: 'Categoria restaurado com sucesso',
     };
   }
 }

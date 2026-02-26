@@ -7,6 +7,8 @@ import { CreateCategoryProvider } from './providers/create-category.provider';
 import { FindAllCategoriesProvider } from './providers/find-all-categories.provider';
 import { FindCategoryByIdProvider } from './providers/find-category-by-id.provider';
 import { UpdateCategoryProvider } from './providers/update-category.provider';
+import { DeleteCategoryProvider } from './providers/delete-category.provider';
+import { RestoreCategoryProvider } from './providers/restore-category.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],
@@ -17,6 +19,8 @@ import { UpdateCategoryProvider } from './providers/update-category.provider';
     FindAllCategoriesProvider,
     FindCategoryByIdProvider,
     UpdateCategoryProvider,
+    DeleteCategoryProvider,
+    RestoreCategoryProvider,
   ],
   exports: [
     CategoryService,
@@ -24,6 +28,8 @@ import { UpdateCategoryProvider } from './providers/update-category.provider';
     FindAllCategoriesProvider,
     FindCategoryByIdProvider,
     UpdateCategoryProvider,
+    DeleteCategoryProvider,
+    RestoreCategoryProvider,
   ],
 })
 export class CategoryModule {}

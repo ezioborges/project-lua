@@ -2,6 +2,7 @@ import { Product } from 'src/products/entities/products.entity';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -21,6 +22,9 @@ export class Category {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];

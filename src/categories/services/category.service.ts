@@ -5,6 +5,8 @@ import { FindAllCategoriesProvider } from '../providers/find-all-categories.prov
 import { FindCategoryByIdProvider } from '../providers/find-category-by-id.provider';
 import { UpdateCategoryProvider } from '../providers/update-category.provider';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
+import { DeleteCategoryProvider } from '../providers/delete-category.provider';
+import { RestoreCategoryProvider } from '../providers/restore-category.provider';
 
 @Injectable()
 export class CategoryService {
@@ -13,6 +15,8 @@ export class CategoryService {
     private readonly findAllCategoriesProvider: FindAllCategoriesProvider,
     private readonly findCategoryByIdProvider: FindCategoryByIdProvider,
     private readonly updateCategoryProvider: UpdateCategoryProvider,
+    private readonly deleteteCategoryProvider: DeleteCategoryProvider,
+    private readonly restoreCategoryProvider: RestoreCategoryProvider,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
@@ -32,5 +36,13 @@ export class CategoryService {
       categoryId,
       updateCategoryDto,
     );
+  }
+
+  async delete(categoryId: string) {
+    return await this.deleteteCategoryProvider.execute(categoryId);
+  }
+
+  async restore(categoryId: string) {
+    return await this.restoreCategoryProvider.execute(categoryId);
   }
 }
