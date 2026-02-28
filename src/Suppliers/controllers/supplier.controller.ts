@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -79,6 +80,17 @@ export class SupllierController {
     return {
       status: 'success',
       message: 'Fornecedor excluído com sucesso',
+    };
+  }
+
+  @Patch(':supplierId/restore')
+  @HttpCode(200)
+  async restore(@Param('supplierId', new ParseUUIDPipe()) supplierId: string) {
+    await this.supplierService.restore(supplierId);
+
+    return {
+      status: 'success',
+      message: 'Fornecedor restaurado com sucesso',
     };
   }
 }

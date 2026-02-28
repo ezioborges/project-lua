@@ -8,6 +8,7 @@ import { FindAllSuppliersProvider } from './providers/find-all-suppliers.provide
 import { FindSupplierByIdProvider } from './providers/find-supplier-by-id.provider';
 import { UpdateSupplierProvider } from './providers/update-supplier.provider';
 import { DeleteSupplierProvider } from './providers/delete-supplier.provider';
+import { RestoreSupplierProvider } from './providers/restore-supplier.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Supplier])],
@@ -19,6 +20,7 @@ import { DeleteSupplierProvider } from './providers/delete-supplier.provider';
     FindSupplierByIdProvider,
     UpdateSupplierProvider,
     DeleteSupplierProvider,
+    RestoreSupplierProvider,
   ],
   exports: [
     SupplierService,
@@ -27,6 +29,7 @@ import { DeleteSupplierProvider } from './providers/delete-supplier.provider';
     FindSupplierByIdProvider,
     UpdateSupplierProvider,
     DeleteSupplierProvider,
+    RestoreSupplierProvider,
   ],
 })
 export class SupplierModule {}
