@@ -2,6 +2,7 @@ import { Product } from 'src/Products/entities/products.entity';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -27,6 +28,10 @@ export class Supplier {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  // Essa coluna é obrigatória pro funcionamento do softDelete
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt: Date;
 
   @OneToMany(() => Product, (product) => product.supplier)
   product: Product[];

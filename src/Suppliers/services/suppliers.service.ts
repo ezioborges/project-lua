@@ -5,6 +5,7 @@ import { FindAllSuppliersProvider } from '../providers/find-all-suppliers.provid
 import { FindSupplierByIdProvider } from '../providers/find-supplier-by-id.provider';
 import { UpdateSupplierProvider } from '../providers/update-supplier.provider';
 import { UpdateSupplierDto } from '../dto/update-supplier.dto';
+import { DeleteSupplierProvider } from '../providers/delete-supplier.provider';
 
 @Injectable()
 export class SupplierService {
@@ -13,6 +14,7 @@ export class SupplierService {
     private readonly findAllSuppliersProvider: FindAllSuppliersProvider,
     private readonly findSupplierByIdProvider: FindSupplierByIdProvider,
     private readonly updateSupplierProvider: UpdateSupplierProvider,
+    private readonly deleteSupplierProvider: DeleteSupplierProvider,
   ) {}
 
   async create(createSupplierDto: CreateCategoryDto) {
@@ -32,5 +34,9 @@ export class SupplierService {
       supplierId,
       updateSupplierDto,
     );
+  }
+
+  async delete(supplierId: string) {
+    return await this.deleteSupplierProvider.execute(supplierId);
   }
 }

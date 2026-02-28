@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -67,6 +68,17 @@ export class SupllierController {
       status: 'success',
       message: 'Fornecedor atualizado com sucesso',
       updatedSupplier,
+    };
+  }
+
+  @Delete(':supplierId')
+  @HttpCode(200)
+  async delete(@Param('supplierId', new ParseUUIDPipe()) supplierId: string) {
+    await this.supplierService.delete(supplierId);
+
+    return {
+      status: 'success',
+      message: 'Fornecedor excluído com sucesso',
     };
   }
 }

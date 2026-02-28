@@ -7,6 +7,7 @@ import { CreateSupplierProvider } from './providers/create-supplier.provider';
 import { FindAllSuppliersProvider } from './providers/find-all-suppliers.provider';
 import { FindSupplierByIdProvider } from './providers/find-supplier-by-id.provider';
 import { UpdateSupplierProvider } from './providers/update-supplier.provider';
+import { DeleteSupplierProvider } from './providers/delete-supplier.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Supplier])],
@@ -17,6 +18,7 @@ import { UpdateSupplierProvider } from './providers/update-supplier.provider';
     FindAllSuppliersProvider,
     FindSupplierByIdProvider,
     UpdateSupplierProvider,
+    DeleteSupplierProvider,
   ],
   exports: [
     SupplierService,
@@ -24,6 +26,7 @@ import { UpdateSupplierProvider } from './providers/update-supplier.provider';
     FindAllSuppliersProvider,
     FindSupplierByIdProvider,
     UpdateSupplierProvider,
+    DeleteSupplierProvider,
   ],
 })
 export class SupplierModule {}
