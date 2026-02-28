@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'; // Necessário para ler o .env
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module'; // aqui imprta o módulo e não o controller
-import { ProductsModule } from './products/products.module';
-import { CategoryModule } from './categories/categories.module';
-import { SupplierModule } from './suppliers/supplier.module';
+import { UsersModule } from './Users/users.module'; // aqui imprta o módulo e não o controller
+import { ProductsModule } from './Products/products.module';
+import { CategoryModule } from './Categories/categories.module';
+import { SupplierModule } from './Suppliers/supplier.module';
 
 @Module({
   imports: [

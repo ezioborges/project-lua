@@ -45,7 +45,7 @@ export class CategoriesController {
     return {
       status: 'success',
       message: 'Lista de categorias',
-      data: allCategories,
+      allCategories,
     };
   }
 

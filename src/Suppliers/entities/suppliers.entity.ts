@@ -1,5 +1,12 @@
-import { Product } from 'src/products/entities/products.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from 'src/Products/entities/products.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('suppliers')
 export class Supplier {
@@ -14,6 +21,12 @@ export class Supplier {
 
   @Column({ nullable: true })
   webSite: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 
   @OneToMany(() => Product, (product) => product.supplier)
   product: Product[];
