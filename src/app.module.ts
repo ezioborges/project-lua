@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module'; // aqui imprta o módulo e não o controller
 import { ProductsModule } from './products/products.module';
 import { CategoryModule } from './categories/categories.module';
+import { SupplierModule } from './suppliers/supplier.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CategoryModule } from './categories/categories.module';
     UsersModule,
     ProductsModule,
     CategoryModule,
+    SupplierModule,
   ],
 })
 export class AppModule {}
