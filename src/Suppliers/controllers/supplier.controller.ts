@@ -6,9 +6,11 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { SupplierService } from '../services/suppliers.service';
 import { CreateSupplierDto } from '../dto/create-supplier.dto';
+import { UpdateSupplierDto } from '../dto/update-supplier.dto';
 
 @Controller('suppliers')
 export class SupllierController {
@@ -47,6 +49,24 @@ export class SupllierController {
       status: 'success',
       message: 'Fornecedor encontrado com sucesso',
       supplier,
+    };
+  }
+
+  @Put(':supplierId')
+  @HttpCode(200)
+  async update(
+    @Param('supplierId', new ParseUUIDPipe()) supplierId: string,
+    @Body() updateSupplierDto: UpdateSupplierDto,
+  ) {
+    const updatedSupplier = await this.supplierService.update(
+      supplierId,
+      updateSupplierDto,
+    );
+
+    return {
+      status: 'success',
+      message: 'Fornecedor atualizado com sucesso',
+      updatedSupplier,
     };
   }
 }

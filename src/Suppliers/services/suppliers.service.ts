@@ -3,6 +3,8 @@ import { CreateSupplierProvider } from '../providers/create-supplier.provider';
 import { CreateCategoryDto } from 'src/Categories/dto/create-category.dto';
 import { FindAllSuppliersProvider } from '../providers/find-all-suppliers.provider';
 import { FindSupplierByIdProvider } from '../providers/find-supplier-by-id.provider';
+import { UpdateSupplierProvider } from '../providers/update-supplier.provider';
+import { UpdateSupplierDto } from '../dto/update-supplier.dto';
 
 @Injectable()
 export class SupplierService {
@@ -10,6 +12,7 @@ export class SupplierService {
     private readonly createSupplierProvider: CreateSupplierProvider,
     private readonly findAllSuppliersProvider: FindAllSuppliersProvider,
     private readonly findSupplierByIdProvider: FindSupplierByIdProvider,
+    private readonly updateSupplierProvider: UpdateSupplierProvider,
   ) {}
 
   async create(createSupplierDto: CreateCategoryDto) {
@@ -22,5 +25,12 @@ export class SupplierService {
 
   async findById(supplierId: string) {
     return await this.findSupplierByIdProvider.execute(supplierId);
+  }
+
+  async update(supplierId: string, updateSupplierDto: UpdateSupplierDto) {
+    return await this.updateSupplierProvider.execute(
+      supplierId,
+      updateSupplierDto,
+    );
   }
 }
