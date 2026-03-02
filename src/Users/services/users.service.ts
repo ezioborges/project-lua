@@ -25,23 +25,23 @@ export class UsersService {
     return this.createUserProvider.execute(createUserDto);
   }
 
-  findAll(page: number, limit: number) {
-    return this.findAllUsersProvider.execute(page, limit);
+  async findAll(page: number, limit: number) {
+    return await this.findAllUsersProvider.execute(page, limit);
   }
 
-  findById(id: string) {
-    return this.getUserByIdProvider.execute(id);
+  async findById(id: string) {
+    return await this.getUserByIdProvider.execute(id);
   }
 
-  userUpdate(id: string, updateUserDto: UpdateUserDto) {
-    return this.updateUserProvider.execute(id, updateUserDto);
+  async userUpdate(id: string, updateUserDto: UpdateUserDto) {
+    return await this.updateUserProvider.execute(id, updateUserDto);
   }
 
-  deleteUser(userId: string) {
-    return this.deleteUserProvider.execute(userId);
+  async deleteUser(userId: string) {
+    return await this.deleteUserProvider.execute(userId);
   }
 
-  restoreUser(userId: string) {
-    return this.restoreUserProvider.execute(userId);
+  async restoreUser(userId: string) {
+    return await this.restoreUserProvider.execute(userId);
   }
 }

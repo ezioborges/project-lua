@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { ProductsService } from '../services/product.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 
@@ -15,6 +23,30 @@ export class ProductsController {
       status: 'success',
       message: 'Produto criado com sucesso',
       data: newProduct,
+    };
+  }
+
+  @Get()
+  @HttpCode(200)
+  async findAll(page: number, limit: number) {
+    const allProducts = await this.productsService.findAll(page, limit);
+
+    return {
+      status: 'success',
+      message: 'Lista de produtos',
+      allProducts,
+    };
+  }
+
+  @Get(':productId')
+  @HttpCode(200)
+  async findById(@Param('productId', new ParseUUIDPipe()) productId: string) {
+    const product = await this.productsService.findById(productId);
+
+    return {
+      status: 'success',
+      message: `Produto: ${product.name}`,
+      product,
     };
   }
 }
