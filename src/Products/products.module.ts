@@ -8,6 +8,7 @@ import { Category } from 'src/Categories/entities/category.entity';
 import { Supplier } from 'src/Suppliers/entities/suppliers.entity';
 import { FindAllProductsProvider } from './providers/find-all-products.provider';
 import { FindProductByIdProvider } from './providers/find-product-by-id.provider';
+import { UpdateProductProvider } from './providers/update-product.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Product, Category, Supplier])],
@@ -17,11 +18,13 @@ import { FindProductByIdProvider } from './providers/find-product-by-id.provider
     CreateProductProvider,
     FindAllProductsProvider,
     FindProductByIdProvider,
+    UpdateProductProvider,
   ],
   exports: [
     CreateProductProvider,
     FindAllProductsProvider,
     FindProductByIdProvider,
+    UpdateProductProvider,
   ],
 })
 export class ProductsModule {}

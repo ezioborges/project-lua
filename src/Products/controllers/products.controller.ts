@@ -6,9 +6,11 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ProductsService } from '../services/product.service';
 import { CreateProductDto } from '../dto/create-product.dto';
+import { UpdateProductDto } from '../dto/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -47,6 +49,24 @@ export class ProductsController {
       status: 'success',
       message: `Produto: ${product.name}`,
       product,
+    };
+  }
+
+  @Put(':productId')
+  @HttpCode(200)
+  async update(
+    @Param('productId', new ParseUUIDPipe()) productId: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    const updatedProduct = await this.productsService.update(
+      productId,
+      updateProductDto,
+    );
+
+    return {
+      status: 'success',
+      message: `Produto atualizado com sucesso`,
+      updatedProduct,
     };
   }
 }
