@@ -10,6 +10,7 @@ import { FindAllProductsProvider } from './providers/find-all-products.provider'
 import { FindProductByIdProvider } from './providers/find-product-by-id.provider';
 import { UpdateProductProvider } from './providers/update-product.provider';
 import { DeleteProductProvider } from './providers/delete-product.provider';
+import { RestoreProductProvider } from './providers/restore-product.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Product, Category, Supplier])],
@@ -21,6 +22,7 @@ import { DeleteProductProvider } from './providers/delete-product.provider';
     FindProductByIdProvider,
     UpdateProductProvider,
     DeleteProductProvider,
+    RestoreProductProvider,
   ],
   exports: [
     CreateProductProvider,
@@ -28,6 +30,7 @@ import { DeleteProductProvider } from './providers/delete-product.provider';
     FindProductByIdProvider,
     UpdateProductProvider,
     DeleteProductProvider,
+    RestoreProductProvider,
   ],
 })
 export class ProductsModule {}

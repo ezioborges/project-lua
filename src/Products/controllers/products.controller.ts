@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -79,6 +80,17 @@ export class ProductsController {
     return {
       status: 'success',
       message: 'Produto deletado com sucesso',
+    };
+  }
+
+  @Patch(':productId/restore')
+  @HttpCode(200)
+  async restore(@Param('productId', new ParseUUIDPipe()) productId: string) {
+    await this.productsService.restore(productId);
+
+    return {
+      status: 'success',
+      messagem: 'Produto restaurado com sucesso',
     };
   }
 }
