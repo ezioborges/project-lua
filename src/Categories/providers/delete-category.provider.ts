@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -28,6 +29,10 @@ export class DeleteCategoryProvider {
 
       return await this.categoryRepository.softDelete(categoryId);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Não foi possível deletar a categoria: ${error.message}`,
       );

@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -28,6 +29,10 @@ export class FindCategoryByIdProvider {
 
       return category;
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao buscar a categoria pelo ID: ${error.message}`,
       );

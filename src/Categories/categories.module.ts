@@ -9,6 +9,7 @@ import { FindCategoryByIdProvider } from './providers/find-category-by-id.provid
 import { UpdateCategoryProvider } from './providers/update-category.provider';
 import { DeleteCategoryProvider } from './providers/delete-category.provider';
 import { RestoreCategoryProvider } from './providers/restore-category.provider';
+import { CategoryValidator } from './services/categories-validators.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],
@@ -21,6 +22,7 @@ import { RestoreCategoryProvider } from './providers/restore-category.provider';
     UpdateCategoryProvider,
     DeleteCategoryProvider,
     RestoreCategoryProvider,
+    CategoryValidator,
   ],
   exports: [
     CategoryService,
@@ -30,6 +32,7 @@ import { RestoreCategoryProvider } from './providers/restore-category.provider';
     UpdateCategoryProvider,
     DeleteCategoryProvider,
     RestoreCategoryProvider,
+    CategoryValidator,
   ],
 })
 export class CategoryModule {}
