@@ -5,6 +5,7 @@ import { FindAllProductsProvider } from '../providers/find-all-products.provider
 import { FindProductByIdProvider } from '../providers/find-product-by-id.provider';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { UpdateProductProvider } from '../providers/update-product.provider';
+import { DeleteProductProvider } from '../providers/delete-product.provider';
 
 @Injectable()
 export class ProductsService {
@@ -13,6 +14,7 @@ export class ProductsService {
     private readonly findAllProductsProvider: FindAllProductsProvider,
     private readonly findProductByIdProvider: FindProductByIdProvider,
     private readonly updateProductProvider: UpdateProductProvider,
+    private readonly deleteProductProvider: DeleteProductProvider,
   ) {}
 
   create(createProductDto: CreateProductDto) {
@@ -32,5 +34,9 @@ export class ProductsService {
       productId,
       updatePRoductDto,
     );
+  }
+
+  async delete(productId: string) {
+    return await this.deleteProductProvider.execute(productId);
   }
 }

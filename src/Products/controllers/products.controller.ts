@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -67,6 +68,17 @@ export class ProductsController {
       status: 'success',
       message: `Produto atualizado com sucesso`,
       updatedProduct,
+    };
+  }
+
+  @Delete(':productId')
+  @HttpCode(200)
+  async delete(@Param('productId', new ParseUUIDPipe()) productId: string) {
+    await this.productsService.delete(productId);
+
+    return {
+      status: 'success',
+      message: 'Produto deletado com sucesso',
     };
   }
 }
