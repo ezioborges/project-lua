@@ -8,9 +8,11 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { IngredientService } from '../services/ingredient.service';
 import { CreateIngredientDto } from '../dto/create-ingredient.dto';
+import { UpdateIngredientDto } from '../dto/update-ingredient.dto';
 
 @Controller('ingredients')
 export class IngredientController {
@@ -63,6 +65,30 @@ export class IngredientController {
     } catch (error) {
       throw new InternalServerErrorException(
         `Não foi possível encontrar o ingrediente: ${error.message}`,
+      );
+    }
+  }
+
+  @Put(':ingredientId')
+  @HttpCode(200)
+  async update(
+    @Param('ingredientId', new ParseUUIDPipe()) ingredientId: string,
+    @Body() updateIngredientDto: UpdateIngredientDto,
+  ) {
+    try {
+      const ingredient = await this.ingredientService.update(
+        ingredientId,
+        updateIngredientDto,
+      );
+
+      return {
+        status: 'success',
+        message: 'Ingrediente atualizado com sucesso',
+        ingredient,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao atualizar o ingrediente: ${error.message}`,
       );
     }
   }

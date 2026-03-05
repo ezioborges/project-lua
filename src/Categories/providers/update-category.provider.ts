@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from '../entities/category.entity';
 import { Repository } from 'typeorm';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
-import { CategoryValidator } from '../services/categories-validators.service';
 
 @Injectable()
 export class UpdateCategoryProvider {
