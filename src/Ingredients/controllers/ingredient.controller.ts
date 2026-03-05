@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  ConflictException,
+  Controller,
+  Get,
+  HttpCode,
+  InternalServerErrorException,
+  Post,
+} from '@nestjs/common';
 import { IngredientService } from '../services/ingredient.service';
 import { CreateIngredientDto } from '../dto/create-ingredient.dto';
 
@@ -17,5 +25,23 @@ export class IngredientController {
       message: 'Ingrediente criado com sucesso',
       newIngredient,
     };
+  }
+
+  @Get()
+  @HttpCode(200)
+  async findAll(page: number, limit: number) {
+    try {
+      const allIngredients = await this.ingredientService.findAll(page, limit);
+
+      return {
+        status: 'success',
+        message: 'Lista de Ingredientes',
+        allIngredients,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao listar os ingredientes: ${error.message}`,
+      );
+    }
   }
 }
