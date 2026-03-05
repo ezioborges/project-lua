@@ -5,6 +5,9 @@ import { UsersModule } from './Users/users.module'; // aqui imprta o módulo e n
 import { ProductsModule } from './Products/products.module';
 import { CategoryModule } from './Categories/categories.module';
 import { SupplierModule } from './Suppliers/supplier.module';
+import { IngredientModule } from './Ingredients/ingredients.module';
+import { RecipeModule } from './Recipe/recipe.module';
+import { RecipeIngredientModule } from './RecipeIngredient/recipe-ingredient.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { SupplierModule } from './Suppliers/supplier.module';
     ProductsModule,
     CategoryModule,
     SupplierModule,
+    IngredientModule,
+    RecipeModule,
+    RecipeIngredientModule,
   ],
 })
 export class AppModule {}
