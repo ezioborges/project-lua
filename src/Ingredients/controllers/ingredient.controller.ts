@@ -2,11 +2,13 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   HttpCode,
   InternalServerErrorException,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -89,6 +91,47 @@ export class IngredientController {
     } catch (error) {
       throw new InternalServerErrorException(
         `Erro ao atualizar o ingrediente: ${error.message}`,
+      );
+    }
+  }
+
+  @Delete(':ingredientId')
+  @HttpCode(200)
+  async delete(
+    @Param('ingredientId', new ParseUUIDPipe()) ingredientId: string,
+  ) {
+    try {
+      const deletedItem = await this.ingredientService.delete(ingredientId);
+
+      return {
+        status: 'success',
+        message: 'Ingrediente deletado com sucesso',
+        deletedItem,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Não foi possível deletar o ingrediente: ${error.message}`,
+      );
+    }
+  }
+
+  @Patch(':ingredientId')
+  @HttpCode(200)
+  async restore(
+    @Param('ingredientId', new ParseUUIDPipe()) ingredientId: string,
+  ) {
+    try {
+      const restoredIngredient =
+        await this.ingredientService.restore(ingredientId);
+
+      return {
+        status: 'success',
+        message: 'Ingrediente restaurado com sucesso',
+        restoredIngredient,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Não foi possível restaurar o ingrediente: ${error.message}`,
       );
     }
   }

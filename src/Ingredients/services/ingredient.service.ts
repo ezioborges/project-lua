@@ -5,6 +5,8 @@ import { FindAllIngredientsProvider } from '../providers/find-all-ingredients.pr
 import { FindIngredientByIdProvider } from '../providers/find-ingredient-by-id.provider';
 import { UpdateIngredientProvider } from '../providers/update-ingredient.provider';
 import { UpdateIngredientDto } from '../dto/update-ingredient.dto';
+import { DeleteIngredientProvider } from '../providers/delete-ingredient.provider';
+import { RestoreIngredientProvider } from '../providers/restore-ingredient.provider';
 
 @Injectable()
 export class IngredientService {
@@ -13,6 +15,8 @@ export class IngredientService {
     private readonly findAllIngredientProvider: FindAllIngredientsProvider,
     private readonly findIngredientByIdProvider: FindIngredientByIdProvider,
     private readonly updateIngredientProvider: UpdateIngredientProvider,
+    private readonly deleteIngredientProvider: DeleteIngredientProvider,
+    private readonly restoreIngredientProvider: RestoreIngredientProvider,
   ) {}
 
   async create(createIngredientDto: CreateIngredientDto) {
@@ -32,5 +36,13 @@ export class IngredientService {
       ingredentId,
       updateIngredientDto,
     );
+  }
+
+  async delete(ingredientId: string) {
+    return await this.deleteIngredientProvider.execute(ingredientId);
+  }
+
+  async restore(ingredientId: string) {
+    return await this.restoreIngredientProvider.execute(ingredientId);
   }
 }
