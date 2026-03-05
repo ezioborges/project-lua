@@ -5,6 +5,8 @@ import {
   Get,
   HttpCode,
   InternalServerErrorException,
+  Param,
+  ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
 import { IngredientService } from '../services/ingredient.service';
@@ -41,6 +43,26 @@ export class IngredientController {
     } catch (error) {
       throw new InternalServerErrorException(
         `Erro ao listar os ingredientes: ${error.message}`,
+      );
+    }
+  }
+
+  @Get(':ingredientId')
+  @HttpCode(200)
+  async findById(
+    @Param('ingredientId', new ParseUUIDPipe()) ingredientId: string,
+  ) {
+    try {
+      const ingredient = await this.ingredientService.findById(ingredientId);
+
+      return {
+        status: 'succss',
+        message: 'Ingrediente encontrado',
+        ingredient,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Não foi possível encontrar o ingrediente: ${error.message}`,
       );
     }
   }

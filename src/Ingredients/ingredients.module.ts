@@ -6,6 +6,7 @@ import { IngredientService } from './services/ingredient.service';
 import { IngredientController } from './controllers/ingredient.controller';
 import { RecipeIngredient } from 'src/RecipeIngredient/entities/recipe-ingredient.entity';
 import { FindAllIngredientsProvider } from './providers/find-all-ingredients.provider';
+import { FindIngredientByIdProvider } from './providers/find-ingredient-by-id.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Ingredient, RecipeIngredient])],
@@ -14,11 +15,13 @@ import { FindAllIngredientsProvider } from './providers/find-all-ingredients.pro
     IngredientService,
     CreateIngredientProvider,
     FindAllIngredientsProvider,
+    FindIngredientByIdProvider,
   ],
   exports: [
     IngredientService,
     CreateIngredientProvider,
     FindAllIngredientsProvider,
+    FindIngredientByIdProvider,
   ],
 })
 export class IngredientModule {}
