@@ -13,7 +13,7 @@ export class RecipeController {
 
     return {
       status: 'success',
-      message: 'Receita cria com sucesso',
+      message: 'Receita criada com sucesso',
       newRecipe,
     };
   }
