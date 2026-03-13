@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';
 
@@ -15,6 +15,30 @@ export class RecipeController {
       status: 'success',
       message: 'Receita criada com sucesso',
       newRecipe,
+    };
+  }
+
+  @Get()
+  @HttpCode(200)
+  async findAll(page: number, limit: number) {
+    const allRecipes = await this.recipeService.findAll(page, limit);
+
+    return {
+      status: 'success',
+      message: 'Lista de Receitas',
+      allRecipes,
+    };
+  }
+
+  @Get(':recipeId')
+  @HttpCode(200)
+  async findById(@Param('recipeId') recipeId: string) {
+    const recipe = await this.recipeService.findById(recipeId);
+
+    return {
+      status: 'success',
+      message: 'Receita encontrada com sucesso',
+      recipe,
     };
   }
 }
