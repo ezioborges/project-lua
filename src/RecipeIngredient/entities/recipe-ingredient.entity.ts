@@ -1,8 +1,14 @@
 import { Ingredient } from 'src/Ingredients/entities/ingredient.entity';
 import { Recipe } from 'src/Recipe/entities/recipe.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity('recipe_ingredinets')
+@Entity('recipe_ingredients')
 export class RecipeIngredient {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -15,8 +21,10 @@ export class RecipeIngredient {
   unit: string;
 
   @ManyToOne(() => Recipe, (recipe) => recipe.recipeIngredient)
+  @JoinColumn({ name: 'recipe_id' }) // força a nomenclatura em snake_case
   recipe: Recipe;
 
   @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipeIngredients)
+  @JoinColumn({ name: 'ingredient_id' })
   ingredient: Ingredient;
 }

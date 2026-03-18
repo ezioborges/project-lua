@@ -6,6 +6,7 @@ import { FindRecipeByIdProvider } from '../providers/find-recipe-by-id.provider'
 import { UpdateRecipeProvider } from '../providers/update-recipe.provider';
 import { UpdateRecipeDto } from '../dto/update-recipe.dto';
 import { DeleteRecipeProvider } from '../providers/delete-recipe.provider';
+import { RestoreRecipeProvider } from '../providers/restore-recipe.provider';
 
 @Injectable()
 export class RecipeService {
@@ -15,6 +16,7 @@ export class RecipeService {
     private readonly findRecipeByIdProvider: FindRecipeByIdProvider,
     private readonly updateRecipeProvider: UpdateRecipeProvider,
     private readonly deleteRecipeProvider: DeleteRecipeProvider,
+    private readonly restoreRecipeProvider: RestoreRecipeProvider,
   ) {}
 
   async create(createRecipeDto: CreateRecipeDto) {
@@ -35,5 +37,9 @@ export class RecipeService {
 
   async delete(recipeId: string) {
     return await this.deleteRecipeProvider.execute(recipeId);
+  }
+
+  async restore(recipeId: string) {
+    return await this.restoreRecipeProvider.execute(recipeId);
   }
 }

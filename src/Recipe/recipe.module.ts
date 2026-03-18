@@ -9,6 +9,7 @@ import { FindAllRecipesProvider } from './providers/find-all-recipes.provider';
 import { FindRecipeByIdProvider } from './providers/find-recipe-by-id.provider';
 import { UpdateRecipeProvider } from './providers/update-recipe.provider';
 import { DeleteRecipeProvider } from './providers/delete-recipe.provider';
+import { RestoreRecipeProvider } from './providers/restore-recipe.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Recipe, RecipeIngredient])],
@@ -20,6 +21,7 @@ import { DeleteRecipeProvider } from './providers/delete-recipe.provider';
     FindRecipeByIdProvider,
     UpdateRecipeProvider,
     DeleteRecipeProvider,
+    RestoreRecipeProvider,
   ],
   exports: [
     RecipeService,
@@ -28,6 +30,7 @@ import { DeleteRecipeProvider } from './providers/delete-recipe.provider';
     FindRecipeByIdProvider,
     UpdateRecipeProvider,
     DeleteRecipeProvider,
+    RestoreRecipeProvider,
   ],
 })
 export class RecipeModule {}

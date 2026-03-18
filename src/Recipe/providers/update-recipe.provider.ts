@@ -27,9 +27,12 @@ export class UpdateRecipeProvider {
         );
       }
 
-      const editedRecipe = await this.recipeRepository.merge(recipeToEdit, {
-        ...updateRecipeDto,
-      });
+      const { recipeIngredients, ...updateData } = updateRecipeDto;
+
+      const editedRecipe = this.recipeRepository.merge(
+        recipeToEdit,
+        updateData,
+      );
 
       return await this.recipeRepository.save(editedRecipe);
     } catch (error) {

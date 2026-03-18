@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
@@ -59,6 +60,17 @@ export class RecipeController {
     return {
       status: 'success',
       message: 'Receita deletada com sucesso',
+    };
+  }
+
+  @Patch(':recipeId')
+  @HttpCode(200)
+  async restore(@Param('recipeId', new ParseUUIDPipe()) recipeId: string) {
+    await this.recipeService.restore(recipeId);
+
+    return {
+      status: 'success',
+      message: 'Receita restaurada com sucesso',
     };
   }
 }
