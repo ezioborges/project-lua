@@ -20,6 +20,12 @@ export class FindAllRecipesProvider {
         order: {
           createdAt: 'DESC',
         },
+        // Adicionar as relações
+        relations: {
+          recipeIngredient: {
+            ingredient: true, // garante que retona os dados dos ingredientes também
+          },
+        },
       });
 
       return {
