@@ -33,7 +33,9 @@ export class UpdateProductProvider {
 
       return await this.productRepository.save(updatedProduct);
     } catch (error) {
-      throw new InternalServerErrorException(`Erro ao atualizar produto`);
+      throw new InternalServerErrorException(
+        `Erro ao atualizar produto: ${error.message}`,
+      );
     }
   }
 }

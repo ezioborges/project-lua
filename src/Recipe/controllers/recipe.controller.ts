@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';
 
@@ -39,6 +48,17 @@ export class RecipeController {
       status: 'success',
       message: 'Receita encontrada com sucesso',
       recipe,
+    };
+  }
+
+  @Delete(':recipeId')
+  @HttpCode(200)
+  async delete(@Param('recipeId', new ParseUUIDPipe()) recipeId: string) {
+    await this.recipeService.delete(recipeId);
+
+    return {
+      status: 'success',
+      message: 'Receita deletada com sucesso',
     };
   }
 }

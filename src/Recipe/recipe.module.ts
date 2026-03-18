@@ -7,6 +7,8 @@ import { RecipeService } from './services/recipe.service';
 import { RecipeController } from './controllers/recipe.controller';
 import { FindAllRecipesProvider } from './providers/find-all-recipes.provider';
 import { FindRecipeByIdProvider } from './providers/find-recipe-by-id.provider';
+import { UpdateRecipeProvider } from './providers/update-recipe.provider';
+import { DeleteRecipeProvider } from './providers/delete-recipe.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Recipe, RecipeIngredient])],
@@ -16,12 +18,16 @@ import { FindRecipeByIdProvider } from './providers/find-recipe-by-id.provider';
     CreateRecipeProvider,
     FindAllRecipesProvider,
     FindRecipeByIdProvider,
+    UpdateRecipeProvider,
+    DeleteRecipeProvider,
   ],
   exports: [
     RecipeService,
     CreateRecipeProvider,
     FindAllRecipesProvider,
     FindRecipeByIdProvider,
+    UpdateRecipeProvider,
+    DeleteRecipeProvider,
   ],
 })
 export class RecipeModule {}
