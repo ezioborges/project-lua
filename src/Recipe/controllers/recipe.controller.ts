@@ -8,9 +8,11 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';
+import { UpdateRecipeDto } from '../dto/update-recipe.dto';
 
 @Controller('recipes')
 export class RecipeController {
@@ -60,6 +62,24 @@ export class RecipeController {
     return {
       status: 'success',
       message: 'Receita deletada com sucesso',
+    };
+  }
+
+  @Put(':recipeId')
+  @HttpCode(200)
+  async update(
+    @Param('recipeId', new ParseUUIDPipe()) recipeId: string,
+    @Body() updateRecipeDto: UpdateRecipeDto,
+  ) {
+    const recipeUpdated = await this.recipeService.update(
+      recipeId,
+      updateRecipeDto,
+    );
+
+    return {
+      status: 'success',
+      message: 'Receita atualizada com sucesso',
+      recipeUpdated,
     };
   }
 

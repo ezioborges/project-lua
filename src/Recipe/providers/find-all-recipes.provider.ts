@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recipe } from '../entities/recipe.entity';
 import { Repository } from 'typeorm';
@@ -43,6 +48,10 @@ export class FindAllRecipesProvider {
         },
       });
 
+      if (!recipes) {
+        throw new NotFoundException(`Nenhuma receita foi encontrada`);
+      }
+
       return {
         recipes,
         meta: {
@@ -52,6 +61,10 @@ export class FindAllRecipesProvider {
         },
       };
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Não foi possível listar as receitas`,
       );

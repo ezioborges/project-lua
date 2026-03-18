@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -28,6 +29,10 @@ export class DeleteRecipeProvider {
 
       return await this.recipeRepository.softDelete(recipeId);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao deletar receita: ${error.message}`,
       );
