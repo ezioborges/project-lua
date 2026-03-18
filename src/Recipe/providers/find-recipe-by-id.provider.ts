@@ -11,7 +11,25 @@ export class FindRecipeByIdProvider {
   ) {}
 
   public async execute(recipeId: string) {
-    const recipe = await this.recipeRepository.findOneBy({ id: recipeId });
+    const recipe = await this.recipeRepository.findOne({
+      where: { id: recipeId },
+      relations: { recipeIngredient: { ingredient: true } },
+      // escolher os dados que quero que retorne
+      select: {
+        id: true,
+        name: true,
+        instructions: true,
+        recipeIngredient: {
+          id: true,
+          quantity: true,
+          unit: true,
+          ingredient: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
 
     if (!recipe) {
       throw new NotFoundException(

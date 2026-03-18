@@ -26,6 +26,21 @@ export class FindAllRecipesProvider {
             ingredient: true, // garante que retona os dados dos ingredientes também
           },
         },
+        select: {
+          id: true,
+          name: true,
+          instructions: true,
+          createdAt: true, // quando uso ordenação é necessário que o createAt, seja passado para que TypeORM entenda a busca
+          recipeIngredient: {
+            id: true,
+            quantity: true,
+            unit: true,
+            ingredient: {
+              id: true,
+              name: true,
+            },
+          },
+        },
       });
 
       return {
