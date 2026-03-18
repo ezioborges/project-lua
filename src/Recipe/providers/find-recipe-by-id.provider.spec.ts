@@ -7,7 +7,7 @@ import { Recipe } from '../entities/recipe.entity';
 describe('FindRecipeByIdProvider', () => {
   let provider: FindRecipeByIdProvider;
 
-  // Criamos o nosso repositório falso (mock)
+  // Cria o mock (repositório fake)
   const mockRecipeRepository = {
     findOne: jest.fn(),
   };
@@ -18,7 +18,7 @@ describe('FindRecipeByIdProvider', () => {
         FindRecipeByIdProvider,
         {
           provide: getRepositoryToken(Recipe),
-          useValue: mockRecipeRepository, // Injetamos o falso no lugar do banco real
+          useValue: mockRecipeRepository, // Injeta o mock no lugar do banco de dados
         },
       ],
     }).compile();
@@ -26,7 +26,7 @@ describe('FindRecipeByIdProvider', () => {
     provider = module.get<FindRecipeByIdProvider>(FindRecipeByIdProvider);
   });
 
-  // Limpamos o histórico do mock antes de cada teste
+  // Limpa o histórico dos mocks
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -36,15 +36,15 @@ describe('FindRecipeByIdProvider', () => {
   });
 
   it('deve retornar uma receita quando ela for encontrada', async () => {
-    const receitaFalsa = { id: '123', name: 'Shampoo Base' };
+    const fakeRecipe = { id: '123', name: 'Shampoo Base' };
 
     // Configuramos o mock para retornar a receita falsa
-    mockRecipeRepository.findOne.mockResolvedValue(receitaFalsa);
+    mockRecipeRepository.findOne.mockResolvedValue(fakeRecipe);
 
     const resultado = await provider.execute('123');
 
     // Verificamos se o provider retornou o que o mock entregou
-    expect(resultado).toEqual(receitaFalsa);
+    expect(resultado).toEqual(fakeRecipe);
     expect(mockRecipeRepository.findOne).toHaveBeenCalledTimes(1);
   });
 
