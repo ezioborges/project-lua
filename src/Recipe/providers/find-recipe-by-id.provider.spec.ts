@@ -52,9 +52,16 @@ describe('FindRecipeByIdProvider', () => {
     // Configuramos o mock para não retornar nada
     mockRecipeRepository.findOne.mockResolvedValue(null);
 
+    const errorMessage = new RegExp(
+      `Nenhuma receita encontrada com o ID: id-inexistente`,
+    );
+
     // Verificamos se o erro correto é lançado
     await expect(provider.execute('id-inexistente')).rejects.toThrow(
       NotFoundException,
+    );
+    await expect(provider.execute('id-inexistente')).rejects.toThrow(
+      errorMessage,
     );
   });
 

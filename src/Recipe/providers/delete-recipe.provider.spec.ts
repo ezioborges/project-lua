@@ -2,6 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DeleteRecipeProvider } from './delete-recipe.provider';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Recipe } from '../entities/recipe.entity';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 describe('DeleteRecipeProvider', () => {
   let provider: DeleteRecipeProvider;
@@ -74,6 +78,7 @@ describe('DeleteRecipeProvider', () => {
       'i',
     );
 
+    expect(provider.execute(recipeId)).rejects.toThrow(NotFoundException);
     expect(provider.execute(recipeId)).rejects.toThrow(errorMessage);
 
     // Garante que o método de delete não foi chamado
@@ -95,6 +100,9 @@ describe('DeleteRecipeProvider', () => {
       'i',
     );
 
+    await expect(provider.execute(recipeId)).rejects.toThrow(
+      InternalServerErrorException,
+    );
     await expect(provider.execute(recipeId)).rejects.toThrow(errorMessage);
   });
 });

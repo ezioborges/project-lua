@@ -4,6 +4,10 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Recipe } from '../entities/recipe.entity';
 import { RecipeIngredient } from 'src/RecipeIngredient/entities/recipe-ingredient.entity';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';
+import {
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 describe('CreateRecipeProvider', () => {
   let provider: CreateRecipeProvider;
@@ -122,6 +126,10 @@ describe('CreateRecipeProvider', () => {
       `Uma receita já foi cadastrada com o nome: ${fakeRecipeDto.name}`,
       'i',
     );
+
+    await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(
+      ConflictException,
+    );
     await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(regexMessage);
 
     expect(mockRecipeRepository.save).not.toHaveBeenCalled();
@@ -141,6 +149,9 @@ describe('CreateRecipeProvider', () => {
 
     const regexMessage = new RegExp(`Não foi possível criar a receita.`, 'i');
 
+    await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(
+      InternalServerErrorException,
+    );
     await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(regexMessage);
   });
 });

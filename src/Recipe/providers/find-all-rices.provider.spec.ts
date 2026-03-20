@@ -2,6 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Recipe } from '../entities/recipe.entity';
 import { FindAllRecipesProvider } from './find-all-recipes.provider';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 describe('FindAllRecipesProvider', () => {
   let provider: FindAllRecipesProvider;
@@ -103,6 +107,7 @@ describe('FindAllRecipesProvider', () => {
     // Act & assert
     const errorMessage = new RegExp(`Nenhuma receita foi encontrada`);
 
+    await expect(provider.execute()).rejects.toThrow(NotFoundException);
     await expect(provider.execute()).rejects.toThrow(errorMessage);
   });
 
@@ -115,6 +120,9 @@ describe('FindAllRecipesProvider', () => {
     // Act & Assert
     const errorMessage = new RegExp(`Não foi possível listar as receitas`, 'i');
 
+    await expect(provider.execute()).rejects.toThrow(
+      InternalServerErrorException,
+    );
     await expect(provider.execute()).rejects.toThrow(errorMessage);
   });
 });
