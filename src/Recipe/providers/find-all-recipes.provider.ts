@@ -48,7 +48,7 @@ export class FindAllRecipesProvider {
         },
       });
 
-      if (!recipes) {
+      if (recipes.length === 0) {
         throw new NotFoundException(`Nenhuma receita foi encontrada`);
       }
 
