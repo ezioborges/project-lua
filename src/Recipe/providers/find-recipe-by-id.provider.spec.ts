@@ -57,4 +57,19 @@ describe('FindRecipeByIdProvider', () => {
       NotFoundException,
     );
   });
+
+  it('Deve lançar InternalServerErrorException caso ocorra erro no banco de dados', async () => {
+    // Arrage
+    mockRecipeRepository.findOne.mockRejectedValue(
+      new Error('Erro de conexão'),
+    );
+
+    // Act & Assert
+    const errorMessage = new RegExp(
+      `Não foi possível encontrar a receita pelo ID.`,
+      'i',
+    );
+
+    await expect(provider.execute('123')).rejects.toThrow(errorMessage);
+  });
 });
