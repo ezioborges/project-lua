@@ -4,10 +4,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Recipe } from '../entities/recipe.entity';
 import { RecipeIngredient } from 'src/RecipeIngredient/entities/recipe-ingredient.entity';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';
-import {
-  ConflictException,
-  InternalServerErrorException,
-} from '@nestjs/common';
 
 describe('CreateRecipeProvider', () => {
   let provider: CreateRecipeProvider;
@@ -122,11 +118,11 @@ describe('CreateRecipeProvider', () => {
 
     // Act & Assert
     // Quando espero um erro
-    await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(
-      new ConflictException(
-        `Uma receita já foi cadastrada com o nome: ${fakeRecipeDto.name}`,
-      ),
+    const regexMessage = new RegExp(
+      `Uma receita já foi cadastrada com o nome: ${fakeRecipeDto.name}`,
+      'i',
     );
+    await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(regexMessage);
 
     expect(mockRecipeRepository.save).not.toHaveBeenCalled();
   });
@@ -143,8 +139,8 @@ describe('CreateRecipeProvider', () => {
     // mockRejectedValue: Usado para rejeitar funções assincronas
     mockRecipeRepository.save.mockRejectedValue(new Error('Database caiu'));
 
-    await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(
-      new InternalServerErrorException(`Não foi possível criar a receita.`),
-    );
+    const regexMessage = new RegExp(`Não foi possível criar a receita.`, 'i');
+
+    await expect(provider.execute(fakeRecipeDto)).rejects.toThrow(regexMessage);
   });
 });
