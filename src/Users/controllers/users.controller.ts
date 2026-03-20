@@ -26,7 +26,7 @@ export class UsersController {
     return {
       status: 'success',
       message: 'Usuário criado com sucesso!',
-      data: newUser,
+      newUser,
     };
   }
 
