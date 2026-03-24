@@ -58,7 +58,7 @@ describe('CreateRecipeProvider', () => {
       recipeIngredients: [{ ingredientId: 'ing-1', quantity: 100, unit: 'ml' }],
     };
 
-    // Aqui crio o uma receita
+    // Aqui crio uma receita
     const mockSavedRecipe = { id: '123', name: 'Shampoo' };
 
     // Aqui eu crio um ingrediente
