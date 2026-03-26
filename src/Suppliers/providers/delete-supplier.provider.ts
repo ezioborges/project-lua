@@ -19,11 +19,6 @@ export class DeleteSupplierProvider {
       const supplierToDelete = await this.supplierRepository.findOneBy({
         id: supplierId,
       });
-      console.log(
-        '🚀 ~ deleteSupplierProvider ~ execute ~ supplierToDelete:',
-        supplierToDelete,
-      );
-
       if (!supplierToDelete) {
         throw new NotFoundException(
           `Nenhum forncedor encontrado com o ID: ${supplierId}`,
