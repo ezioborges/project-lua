@@ -10,6 +10,7 @@ import { UpdateUserProvider } from './providers/update-user.provider';
 import { DeleteUserProvider } from './providers/delete-user.provider';
 import { RestoreUserProvider } from './providers/restore-user.provider';
 import { UserValidator } from './services/user-validator.service';
+import { FindUserByEmailProvider } from './providers/find-user-by-email';
 
 @Module({
   // O forFeature cria o "UserRepository" internamente
@@ -24,6 +25,7 @@ import { UserValidator } from './services/user-validator.service';
     UpdateUserProvider,
     DeleteUserProvider,
     RestoreUserProvider,
+    FindUserByEmailProvider,
   ],
   exports: [
     UsersService,
@@ -34,6 +36,7 @@ import { UserValidator } from './services/user-validator.service';
     UpdateUserProvider,
     DeleteUserProvider,
     RestoreUserProvider,
+    FindUserByEmailProvider,
   ],
 })
 export class UsersModule {}

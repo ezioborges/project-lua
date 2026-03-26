@@ -8,6 +8,7 @@ import { SupplierModule } from './Suppliers/supplier.module';
 import { IngredientModule } from './Ingredients/ingredients.module';
 import { RecipeModule } from './Recipe/recipe.module';
 import { RecipeIngredientModule } from './RecipeIngredient/recipe-ingredient.module';
+import { AuthModule } from './Auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { RecipeIngredientModule } from './RecipeIngredient/recipe-ingredient.mod
     IngredientModule,
     RecipeModule,
     RecipeIngredientModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

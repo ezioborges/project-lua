@@ -7,6 +7,9 @@ const PORT = process.env.PORT ?? 3000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Habilita requisições de outras origens (Front-end)
+  app.enableCors();
+
   // ativa a validação dos tipos que passei na DTO
   app.useGlobalPipes(
     new ValidationPipe({
