@@ -16,6 +16,8 @@ import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { JwtAuthGuard } from 'src/Auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/Auth/guards/roles.guard';
+import { Roles } from 'src/Auth/decorators/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -32,7 +34,9 @@ export class UsersController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  // A ordem desses decorators é essencial para funcionar
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Get()
   async findAll(
     @Query('page') page: number = 1,

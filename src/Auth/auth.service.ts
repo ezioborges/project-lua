@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/Users/services/users.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -12,11 +13,22 @@ export class AuthService {
   async login(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
 
+    // 👇 ADICIONE ESTAS 3 LINHAS DE ESPIÃO AQUI:
+    console.log('1. Email tentado:', email);
+    console.log(
+      '2. Usuário achado no DB:',
+      user ? user.name : 'NENHUM (undefined/null)',
+    );
+    if (user)
+      console.log('3. Senha DB:', user.password, '| Senha Insomnia:', password);
+
     if (!user) {
       throw new UnauthorizedException(`Credenciais inválidas`);
     }
 
-    if (user.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       throw new UnauthorizedException(`Credenciais inválidas`);
     }
 
@@ -29,7 +41,7 @@ export class AuthService {
 
     // o Nestjs assinar e gera o token de acesso (menos tempo de duração)
     const accessToken = await this.jwtService.signAsync(payload, {
-      secret: 'MINHA_CHAVE_SUPER_SECRETA_123',
+      secret: 'MINHA_CHAVE_SECRETA_123',
       expiresIn: '1h',
     });
 
@@ -72,7 +84,7 @@ export class AuthService {
       const newPayload = { sub: user.id, email: user.email, role: user.role };
 
       const newAccessToken = await this.jwtService.signAsync(newPayload, {
-        secret: 'MINHA_CHAVE_SUPER_SECRETA_123',
+        secret: 'MINHA_CHAVE_SECRETA_123',
         expiresIn: '1h',
       });
 
