@@ -13,17 +13,12 @@ export class AuthService {
   async login(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
 
-    // 👇 ADICIONE ESTAS 3 LINHAS DE ESPIÃO AQUI:
-    console.log('1. Email tentado:', email);
-    console.log(
-      '2. Usuário achado no DB:',
-      user ? user.name : 'NENHUM (undefined/null)',
-    );
-    if (user)
-      console.log('3. Senha DB:', user.password, '| Senha Insomnia:', password);
-
     if (!user) {
       throw new UnauthorizedException(`Credenciais inválidas`);
+    }
+
+    if (user && !password) {
+      console.log('DEU BOA');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);

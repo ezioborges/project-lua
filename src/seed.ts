@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { UsersService } from './Users/services/users.service';
 import { DataSource } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 
 async function bootstrap() {
   // 1. Cria o contexto da aplicação NestJS (sem subir o servidor HTTP)

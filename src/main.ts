@@ -16,6 +16,7 @@ async function bootstrap() {
       whitelist: true, // remove campos que não estão na DTO
       forbidNonWhitelisted: true, // Erro se for enviado campos extras
       transform: true, // converte tipos automaticamente
+      stopAtFirstError: true, // lança o primeiro erro encontrado sem mandar os outros
     }),
   );
 

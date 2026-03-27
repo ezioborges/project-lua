@@ -12,11 +12,11 @@ export class UserValidator {
 
   async checkEmailAndCpf(email?: string, cpf?: string, userId?: string) {
     if (email) {
-      const emailExists = await this.userRepository.findOne({
+      const userExists = await this.userRepository.findOne({
         where: { email },
       });
 
-      if (emailExists && emailExists.id !== userId) {
+      if (userExists && userExists.id !== userId) {
         throw new ConflictException('Email já está cadastrado');
       }
     }
