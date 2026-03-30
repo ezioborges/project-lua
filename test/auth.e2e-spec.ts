@@ -6,6 +6,10 @@ import { DataSource } from 'typeorm';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
+  // Criar variveis para guardar os tokens
+  let adminToken: string;
+  let clientToken: string;
+  let guestToken: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,6 +21,25 @@ describe('AuthController (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
 
     await app.init();
+
+    // depois de ativar o app, fazer os logins
+    const responseAdmin = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'admin@lua.com', password: '123456' });
+
+    adminToken = responseAdmin.body.userLog.access_token;
+
+    const responseClient = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'client@lua.com', password: '123456' });
+
+    clientToken = responseClient.body.userLog.access_token;
+
+    const responseGuest = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'guest@lua.com', password: '123456' });
+
+    guestToken = responseGuest.body.userLog.access_token;
   });
 
   afterAll(async () => {
@@ -25,6 +48,16 @@ describe('AuthController (e2e)', () => {
     await dataSource.destroy();
 
     await app.close();
+  });
+
+  it('/users (GET) - Admin deve conseguir listar usuários', async () => {
+    return request(app.getHttpServer())
+      .get('/users')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data);
+      });
   });
 
   it('/auth/login POST: deve retornar 200 e os tokens', async () => {

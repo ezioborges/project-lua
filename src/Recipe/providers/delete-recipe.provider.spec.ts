@@ -104,5 +104,8 @@ describe('DeleteRecipeProvider', () => {
       InternalServerErrorException,
     );
     await expect(provider.execute(recipeId)).rejects.toThrow(errorMessage);
+
+    expect(mockRecipeRepository.findOneBy).toHaveBeenCalled();
+    expect(mockRecipeRepository.softDelete).not.toHaveBeenCalled();
   });
 });
