@@ -20,23 +20,23 @@ export class UpdateCategoryProvider {
     categoryId: string,
     updateCategoryDto: UpdateCategoryDto,
   ) {
+    const category = await this.categoryRepository.findOne({
+      where: {
+        id: categoryId,
+      },
+    });
+
+    if (!category) {
+      throw new NotFoundException(
+        `Categoria não encontrada com o ID: ${categoryId}`,
+      );
+    }
+
+    const categoryToUpdate = this.categoryRepository.merge(category, {
+      ...updateCategoryDto,
+    });
+
     try {
-      const category = await this.categoryRepository.findOne({
-        where: {
-          id: categoryId,
-        },
-      });
-
-      if (!category) {
-        throw new NotFoundException(
-          `Categoria não encontrada com o ID: ${categoryId}`,
-        );
-      }
-
-      const categoryToUpdate = this.categoryRepository.merge(category, {
-        ...updateCategoryDto,
-      });
-
       return await this.categoryRepository.save(categoryToUpdate);
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {

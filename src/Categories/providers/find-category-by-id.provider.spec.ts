@@ -2,7 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FindCategoryByIdProvider } from './find-category-by-id.provider';
 import { Category } from '../entities/category.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { NotFoundException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 describe('FindCategoryByIdProvider', () => {
   let provider: FindCategoryByIdProvider;
@@ -74,5 +77,8 @@ describe('FindCategoryByIdProvider', () => {
     );
 
     expect(provider.execute('123')).rejects.toThrow(errorMessage);
+    expect(provider.execute('123')).rejects.toThrow(
+      InternalServerErrorException,
+    );
   });
 });
