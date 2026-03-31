@@ -19,7 +19,9 @@ export class FindCategoryByIdProvider {
     categoryId: string,
   ): Promise<Category | null | undefined> {
     try {
-      const category = this.categoryRepository.findOneBy({ id: categoryId });
+      const category = await this.categoryRepository.findOneBy({
+        id: categoryId,
+      });
 
       if (!category) {
         throw new NotFoundException(

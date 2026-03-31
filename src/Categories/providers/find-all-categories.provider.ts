@@ -32,7 +32,7 @@ export class FindAllCategoriesProvider {
       await this.categoryValidator.checkCategoryListExist(categories);
 
       return {
-        data: categories,
+        categories,
         meta: {
           total,
           page,
