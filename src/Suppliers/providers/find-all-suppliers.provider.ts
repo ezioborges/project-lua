@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -33,7 +34,7 @@ export class FindAllSuppliersProvider {
       }
 
       return {
-        data: suppliers,
+        suppliers,
         meta: {
           total,
           page,
@@ -41,6 +42,10 @@ export class FindAllSuppliersProvider {
         },
       };
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao buscar os fornecedores: ${error.message}`,
       );
