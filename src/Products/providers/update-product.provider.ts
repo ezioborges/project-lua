@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -33,6 +34,10 @@ export class UpdateProductProvider {
 
       return await this.productRepository.save(updatedProduct);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao atualizar produto: ${error.message}`,
       );
