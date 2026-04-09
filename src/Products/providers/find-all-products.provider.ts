@@ -23,7 +23,7 @@ export class FindAllProductsProvider {
       });
 
       return {
-        data: products,
+        products,
         meta: {
           total,
           page,
@@ -32,7 +32,7 @@ export class FindAllProductsProvider {
       };
     } catch (error) {
       throw new InternalServerErrorException(
-        `Não foi possível listar os produtos`,
+        `Não foi possível listar os produtos: ${error.message}`,
       );
     }
   }
