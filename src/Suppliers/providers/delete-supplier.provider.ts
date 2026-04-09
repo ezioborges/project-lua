@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -27,7 +28,13 @@ export class DeleteSupplierProvider {
 
       return await this.supplierRepository.softDelete(supplierToDelete.id);
     } catch (error) {
-      throw new InternalServerErrorException(`Erro ao deletar fornecedor`);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException(
+        `Erro ao deletar fornecedor: ${error.message}`,
+      );
     }
   }
 }
