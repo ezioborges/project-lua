@@ -1,7 +1,7 @@
 import {
-  ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ingredient } from '../entities/ingredient.entity';
@@ -21,13 +21,17 @@ export class FindIngredientByIdProvider {
       });
 
       if (!ingredient) {
-        throw new ConflictException(
+        throw new NotFoundException(
           `Não foi possível encontrar o ingredient com o ID: ${ingredientId}`,
         );
       }
 
       return ingredient;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro na busca do ingrediente através do ID: ${error.message}`,
       );
