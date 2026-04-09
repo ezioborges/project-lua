@@ -39,14 +39,15 @@ export class UpdateCategoryProvider {
     try {
       return await this.categoryRepository.save(categoryToUpdate);
     } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
+      const err = error as any;
+      if (err.code === 'ER_DUP_ENTRY') {
         throw new ConflictException(
           'Já existe uma categoria com este código (sku)',
         );
       }
 
       throw new InternalServerErrorException(
-        `Erro ao salvar a categoria no banco de dados: ${error.message}`,
+        `Erro ao salvar a categoria no banco de dados: ${err.message}`,
       );
     }
   }

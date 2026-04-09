@@ -30,16 +30,21 @@ export class CreateIngredientProvider {
       const newIngredient =
         this.ingredientRepository.create(createIngredientDto);
 
-      return this.ingredientRepository.save(newIngredient);
+      return await this.ingredientRepository.save(newIngredient);
     } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
+      if (error instanceof ConflictException) {
+        throw error;
+      }
+
+      const err = error as any;
+      if (err.code === 'ER_DUP_ENTRY') {
         throw new ConflictException(
           'Já existe um ingrediente cadastrado com este nome',
         );
       }
 
       throw new InternalServerErrorException(
-        `Não foi possível criar um ingrediente: ${error.message}`,
+        `Não foi possível criar um ingrediente: ${err.message}`,
       );
     }
   }
