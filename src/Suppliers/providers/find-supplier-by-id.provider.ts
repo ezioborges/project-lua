@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -28,7 +29,13 @@ export class FindSupplierByIdProvider {
 
       return supplier;
     } catch (error) {
-      throw new InternalServerErrorException(`Nenhum fornecedor encontrado`);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException(
+        `Nenhum fornecedor encontrado: ${error.message}`,
+      );
     }
   }
 }
