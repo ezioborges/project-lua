@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -40,12 +41,16 @@ export class UpdateSupplierProvider {
 
       return await this.supplierRepository.save(updatedSupplier);
     } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
-        throw new ConflictException(
-          `Já existe um fornecedor com o name: ${error.message}`,
-        );
+      if (error instanceof HttpException) {
+        throw error;
       }
-      throw new InternalServerErrorException(`Erro na busca por fornecedores`);
+
+      if (error.code === 'ER_DUP_ENTRY') {
+        throw new ConflictException(`Já existe um fornecedor com o nome.`);
+      }
+      throw new InternalServerErrorException(
+        `Erro na busca por fornecedores: ${error.message}`,
+      );
     }
   }
 }
