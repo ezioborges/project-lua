@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -28,6 +29,9 @@ export class DeleteProductProvider {
 
       return await this.productRespository.softDelete(productId);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         `Não foi possível deletar o produto: ${error.message}`,
       );
