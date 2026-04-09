@@ -28,7 +28,7 @@ export class CreateUserProvider {
         cpf: cleanCpf || createUserDto.cpf, // a exclamação faz com que eu saiba que tem uma verificação acontecenedo
         password: hashedPassword,
       });
-      return this.userRepository.save(newUser);
+      return await this.userRepository.save(newUser);
     } catch (error) {
       throw new InternalServerErrorException(
         `Erro ao criar o usuário: ${error.message}`,
