@@ -32,7 +32,7 @@ export class CreateProductProvider {
       // peguei o código do erro de duplicidade no proprio terminal
       if (error.code === 'ER_DUP_ENTRY') {
         throw new ConflictException(
-          'Já existe um produto cadastrado com este código (sku)',
+          `Já existe um produto cadastrado com este código (sku): ${error.message}`,
         );
       }
 

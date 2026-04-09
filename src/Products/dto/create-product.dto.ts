@@ -35,7 +35,7 @@ export class CreateProductDto {
   imageUrl?: string;
 
   @IsInt({ message: 'A quantidade de estoque deve ser um número inteiro!' })
-  @Min(0, { message: 'O estoqur final não pode ser um valor negativo' })
+  @Min(0, { message: 'O estoque final não pode ser um valor negativo' })
   stock_quantity: number;
 
   // RELACIONAMENTOS: chamo apenas o ID por que é responsabilidade do Service fazer a busca
