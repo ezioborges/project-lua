@@ -15,7 +15,7 @@ export class CreateSupplierProvider {
     try {
       const newSupplier = this.supplierRepository.create(createSupplierDto);
 
-      return this.supplierRepository.save(newSupplier);
+      return await this.supplierRepository.save(newSupplier);
     } catch (error) {
       throw new InternalServerErrorException(
         `Erro ao criar Fornecedor: ${error.message}`,
