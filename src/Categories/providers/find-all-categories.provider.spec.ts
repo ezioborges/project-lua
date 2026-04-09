@@ -7,7 +7,6 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { error } from 'console';
 
 describe('FindAllCategoriesProvider', () => {
   let provider: FindAllCategoriesProvider;

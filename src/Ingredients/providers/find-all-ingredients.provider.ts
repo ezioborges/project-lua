@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ingredient } from '../entities/ingredient.entity';
 import { Repository } from 'typeorm';
@@ -24,6 +28,10 @@ export class FindAllIngredientsProvider {
         },
       );
 
+      if (ingredients.length === 0) {
+        throw new NotFoundException(`Não foi possível listar os ingredientes`);
+      }
+
       return {
         ingredients,
         meta: {
@@ -33,8 +41,12 @@ export class FindAllIngredientsProvider {
         },
       };
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
-        `Não foi possível lista os ingredientes`,
+        `Erro ao listar ingredientes: ${error.message}`,
       );
     }
   }
