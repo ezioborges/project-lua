@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -20,12 +21,18 @@ export class FindProductByIdProvider {
 
       if (!product) {
         throw new NotFoundException(
-          `Produto n~çao encontrado com o ID: ${productId}`,
+          `Produto não encontrado com o ID: ${productId}`,
         );
       }
       return product;
     } catch (error) {
-      throw new InternalServerErrorException(`Erro na busca por produto.`);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException(
+        `Erro na busca por produto: ${error.message}`,
+      );
     }
   }
 }
