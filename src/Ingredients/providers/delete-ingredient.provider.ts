@@ -16,17 +16,16 @@ export class DeleteIngredientProvider {
   ) {}
 
   public async execute(ingredientId: string) {
+    const ingredient = await this.ingredientRespository.findOneBy({
+      id: ingredientId,
+    });
+
+    if (!ingredient) {
+      throw new ConflictException(
+        `Não foi possível encontrar o ingrediente com o ID: ${ingredientId}`,
+      );
+    }
     try {
-      const ingredient = await this.ingredientRespository.findOneBy({
-        id: ingredientId,
-      });
-
-      if (!ingredient) {
-        throw new ConflictException(
-          `Não foi possível encontrar o ingrediente com o ID: ${ingredientId}`,
-        );
-      }
-
       return await this.ingredientRespository.softDelete(ingredientId);
     } catch (error) {
       throw new InternalServerErrorException(
