@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,18 @@ async function bootstrap() {
       stopAtFirstError: true, // lança o primeiro erro encontrado sem mandar os outros
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('Lua Cosméticos') // Mude para o nome do seu projeto
+    .setDescription('Documentação completa dos endpoints')
+    .setVersion('1.0')
+    .addBearerAuth() // Prepara o Swagger para receber tokens JWT (Autenticação)
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  // A interface ficará disponível na rota /api/docs
+  SwaggerModule.setup('api/docs', app, document);
 
   const configuredPort = Number(configService.get<string>('PORT', '3333'));
   const initialPort = Number.isFinite(configuredPort) ? configuredPort : 3333;
