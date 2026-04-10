@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -24,7 +25,9 @@ export class UpdateUserProvider {
       const user = await this.userRepository.findOne({ where: { id: userId } });
 
       if (!user)
-        throw new NotFoundException(`Usuário não encontrado com o ID: `);
+        throw new NotFoundException(
+          `Usuário não encontrado com o ID: ${userId}`,
+        );
 
       const cleanCpf = await this.userValidator.checkEmailAndCpf(
         email,
@@ -43,6 +46,10 @@ export class UpdateUserProvider {
 
       return await this.userRepository.save(userToUpdate);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao atualizar o usuário: ${error.message}`,
       );
