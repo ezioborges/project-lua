@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/users.entity';
 import { Repository } from 'typeorm';
-import { LoginDto } from 'src/Auth/dto/login.dto';
 
 @Injectable()
 export class FindUserByEmailProvider {
@@ -15,10 +14,8 @@ export class FindUserByEmailProvider {
     const userToLog = await this.userRepository
       .createQueryBuilder('user')
       .where('user.email = :email', { email })
-      .addSelect('user.password') //  traz a senha que está sendo escondido quando cria o user. Olhar a entidade user
+      .addSelect('user.password')
       .getOne();
-
-    console.log('NÃO ESQUECER DE CONFIGURAR O ENV');
 
     if (!userToLog) {
       throw new NotFoundException(
