@@ -2,12 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/Users/services/users.service';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async login(email: string, password: string) {
@@ -34,14 +36,23 @@ export class AuthService {
     // Criar o Payload que vai ser lido no decode do jwt
     const payload = { sub: user.id, email: user.email, role: user.role };
 
+    const accessSecret = this.configService.get<string>(
+      'JWT_SECRET',
+      'dev_jwt_secret_change_me',
+    );
+    const refreshSecret = this.configService.get<string>(
+      'JWT_REFRESH_SECRET',
+      'dev_jwt_refresh_secret_change_me',
+    );
+
     // o Nestjs assinar e gera o token de acesso (menos tempo de duração)
     const accessToken = await this.jwtService.signAsync(payload, {
-      secret: 'MINHA_CHAVE_SECRETA_123',
+      secret: accessSecret,
       expiresIn: '1h',
     });
 
     const refreshToken = await this.jwtService.signAsync(payload, {
-      secret: 'MINHA_CHAVE_DO_REFRESH_TOKEN_999',
+      secret: refreshSecret,
       expiresIn: '7d',
     });
 
@@ -59,8 +70,13 @@ export class AuthService {
     try {
       // Se o token estiver expirado ou falso, cai direto no catch
       // Aqui usamos a mesma chave que é usada para gerar o refresh token no login
+      const refreshSecret = this.configService.get<string>(
+        'JWT_REFRESH_SECRET',
+        'dev_jwt_refresh_secret_change_me',
+      );
+
       const payload = await this.jwtService.verifyAsync(oldToken, {
-        secret: 'MINHA_CHAVE_DO_REFRESH_TOKEN_999',
+        secret: refreshSecret,
       });
 
       // Busca o usuário no banco de dados pelo ID que foi passado dentro do token
@@ -77,9 +93,13 @@ export class AuthService {
 
       // Gera novo access token de 1 hora
       const newPayload = { sub: user.id, email: user.email, role: user.role };
+      const accessSecret = this.configService.get<string>(
+        'JWT_SECRET',
+        'dev_jwt_secret_change_me',
+      );
 
       const newAccessToken = await this.jwtService.signAsync(newPayload, {
-        secret: 'MINHA_CHAVE_SECRETA_123',
+        secret: accessSecret,
         expiresIn: '1h',
       });
 

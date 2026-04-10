@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from '../entities/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,7 +27,7 @@ export class FindAllUsersProvider {
       });
 
       return {
-        data: users,
+        users,
         meta: {
           total,
           page,
@@ -31,6 +35,10 @@ export class FindAllUsersProvider {
         },
       };
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao buscar todos os usuários: ${error.message}`,
       );

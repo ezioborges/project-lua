@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -24,6 +25,10 @@ export class DeleteUserProvider {
 
       return await this.userRepositpry.softDelete(userId);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException(
         `Erro ao deletar o usuário: ${error.message}`,
       );

@@ -48,7 +48,7 @@ export class UsersController {
       status: 'success',
       message: 'Lista de usuários ativos.',
       meta: result.meta,
-      data: result.data,
+      data: result,
     };
   }
 
