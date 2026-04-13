@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/moon-waning-left.svg" width="170" alt="Lua minguante" style="display:block; margin:0 auto;" />
+  <img src="docs/moon-waning-left.svg" width="170" alt="Lua minguante" style="display:block; margin:0 auto; transform:scaleX(-1);" />
 </p>
 
 <h1 align="center">Lua Project API</h1>

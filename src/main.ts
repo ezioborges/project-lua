@@ -10,7 +10,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   // Habilita requisições de outras origens (Front-end)
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3001', // A porta onde seu Next.js está rodando
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 
   // ativa a validação dos tipos que passei na DTO
   app.useGlobalPipes(
