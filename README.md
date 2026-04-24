@@ -28,6 +28,7 @@
 - [Ambiente Local vs Producao](#ambiente-local-vs-producao)
 - [Banco em Producao (Railway)](#banco-em-producao-railway)
 - [Banco com Docker](#banco-com-docker)
+- [Deploy no Render](#deploy-no-render)
 - [Execucao](#execucao)
 - [Swagger](#swagger)
 - [Seed de Dados](#seed-de-dados)
@@ -176,6 +177,21 @@ DB_USERNAME=root
 DB_PASSWORD=senha_secreta_root
 DB_DATABASE=lua_cosmeticos_db
 ```
+
+## Deploy no Render
+
+Este projeto possui um Dockerfile pronto para deploy no Render.
+
+Passos principais:
+
+1. Conecte o repositorio no Render e selecione o tipo Web Service.
+2. Mantenha o Dockerfile como build principal.
+3. Configure as variaveis de ambiente no painel do Render:
+  - DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE
+  - JWT_SECRET, JWT_EXPIRES_IN, JWT_REFRESH_SECRET
+4. O Render define PORT automaticamente (padrao 10000). A aplicacao usa essa variavel.
+
+Se preferir, use o arquivo render.yaml deste repo para configurar tudo via Infrastructure as Code.
 
 ## Execucao
 
