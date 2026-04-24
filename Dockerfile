@@ -16,7 +16,7 @@ ENV NODE_ENV=production
 ENV PORT=10000
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --legacy-peer-deps
 
 COPY --from=builder /app/dist ./dist
 
