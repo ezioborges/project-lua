@@ -11,7 +11,7 @@ async function bootstrap() {
 
   // Habilita requisições de outras origens (Front-end)
   app.enableCors({
-    origin: 'http://localhost:3001', // A porta onde seu Next.js está rodando
+    origin: true, // está aceitando qualquer url do front TODO: DA PARA COLOCAR A URL DO FRONT AQUI
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -46,7 +46,7 @@ async function bootstrap() {
     const port = initialPort + attempt;
 
     try {
-      await app.listen(port);
+      await app.listen(port, '0.0.0.0');
 
       if (attempt > 0) {
         logger.warn(
