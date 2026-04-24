@@ -25,6 +25,8 @@
 - [Stack Tecnologica](#stack-tecnologica)
 - [Arquitetura](#arquitetura)
 - [Configuracao de Ambiente](#configuracao-de-ambiente)
+- [Ambiente Local vs Producao](#ambiente-local-vs-producao)
+- [Banco em Producao (Railway)](#banco-em-producao-railway)
 - [Banco com Docker](#banco-com-docker)
 - [Execucao](#execucao)
 - [Swagger](#swagger)
@@ -92,10 +94,10 @@ Crie um arquivo .env na raiz do projeto:
 PORT=3333
 
 # Banco
-DB_HOST=localhost
+DB_HOST=seu_host_mysql
 DB_PORT=3306
-DB_USERNAME=root
-DB_PASSWORD=sua_senha
+DB_USERNAME=seu_usuario_mysql
+DB_PASSWORD=sua_senha_mysql
 DB_DATABASE=lua_cosmeticos_db
 DB_SYNCHRONIZE=true
 DB_LOGGING=true
@@ -105,6 +107,47 @@ JWT_SECRET=dev_jwt_secret_change_me
 JWT_REFRESH_SECRET=dev_jwt_refresh_secret_change_me
 JWT_EXPIRES_IN=1h
 ```
+
+## Ambiente Local vs Producao
+
+| Contexto    | Banco recomendado | Configuracao esperada                                          |
+| ----------- | ----------------- | -------------------------------------------------------------- |
+| Local (dev) | MySQL via Docker  | DB_HOST=localhost e DB_PORT=3307                               |
+| Producao    | MySQL no Railway  | DB_HOST/DB_PORT/DB_USERNAME/DB_PASSWORD/DB_DATABASE do Railway |
+
+Resumo pratico:
+
+- Desenvolvimento local: use docker compose up -d e mantenha DB_SYNCHRONIZE=true.
+- Producao: use as credenciais do Railway e prefira DB_SYNCHRONIZE=false.
+
+## Banco em Producao (Railway)
+
+O banco de dados da aplicacao foi publicado no Railway.
+
+Para conectar a API ao banco em producao, use no .env as credenciais fornecidas pelo projeto no Railway:
+
+| Variavel    | Origem no Railway               |
+| ----------- | ------------------------------- |
+| DB_HOST     | Host da instancia MySQL         |
+| DB_PORT     | Porta da instancia MySQL        |
+| DB_USERNAME | Usuario do banco                |
+| DB_PASSWORD | Senha do banco                  |
+| DB_DATABASE | Nome do banco criado no Railway |
+
+Exemplo:
+
+```env
+DB_HOST=containers-us-west-xx.railway.app
+DB_PORT=6543
+DB_USERNAME=root
+DB_PASSWORD=senha_gerada_no_railway
+DB_DATABASE=railway
+DB_SYNCHRONIZE=false
+DB_LOGGING=false
+```
+
+> [!IMPORTANT]
+> Em ambiente publicado, prefira DB_SYNCHRONIZE=false para evitar alteracoes automaticas de schema.
 
 ## Banco com Docker
 
